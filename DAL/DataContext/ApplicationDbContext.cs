@@ -1,5 +1,5 @@
-﻿using DAL.Models;
-using DAL.Models.EntityFrameworkJoinEntities;
+﻿using Models.Models;
+using Models.Models.EntityFrameworkJoinEntities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

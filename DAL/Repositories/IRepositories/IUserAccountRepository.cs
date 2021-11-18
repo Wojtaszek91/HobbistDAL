@@ -23,7 +23,7 @@ namespace DAL.Repositories.IRepositories
         public bool BlockOrUnblockUser(string userName, bool isBlocked);
         public bool IsUserNameAvailable(string username);
         public bool IsUserEmailAvailable(string email);
-        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails);
+        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key);
         public UserAccount RegisterUser(UserAccount userAccount);
         public bool RemoveUser(LoginDetails loginDetails);
         public bool ChangeEmail(LoginDetails loginDetails, string newEmail);

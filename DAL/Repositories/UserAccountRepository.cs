@@ -18,15 +18,13 @@ namespace DAL.Repositories
     public class UserAccountRepository : IUserAccountRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly AppSettings _appSettings;
 
-        public UserAccountRepository(ApplicationDbContext context, IOptions<AppSettings> appSettings)
+        public UserAccountRepository(ApplicationDbContext context)
         {
             _context = context;
-            _appSettings = appSettings.Value;
         }
 
-        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails)
+        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key)
         {
             var user = _context.UserAccounts.SingleOrDefault
                 (u => u.Email == loginDetails.Email && u.Password == loginDetails.Password);
@@ -34,7 +32,7 @@ namespace DAL.Repositories
 
             var expiresIn = DateTime.UtcNow.AddDays(1);
             var tokenHanlder = new JwtSecurityTokenHandler();
-            var secret = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var secret = Encoding.ASCII.GetBytes(key);
             var tokenDescriptior = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[] {

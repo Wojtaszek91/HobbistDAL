@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Models.Models;
+using Models.Models.EntityFrameworkJoinEntities.DTOs;
 
 namespace DAL.Repositories
 {

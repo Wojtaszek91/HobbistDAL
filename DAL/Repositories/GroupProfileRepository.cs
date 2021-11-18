@@ -1,6 +1,7 @@
 ﻿using DAL.DataContext;
 using DAL.Repositories.IRepositories;
 using Models.Models;
+using Models.Models.EntityFrameworkJoinEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

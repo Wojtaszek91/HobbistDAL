@@ -1,5 +1,6 @@
 ﻿using DAL.DataContext;
 using DAL.Repositories.IRepositories;
+using HobbistApi.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
 using Models.Models.EntityFrameworkJoinEntities.DTOs;
