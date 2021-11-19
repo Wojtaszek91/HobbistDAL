@@ -71,8 +71,8 @@ namespace DAL.Repositories
         }
 
         public string GetUserEmial(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Email;
-
         public string GetUserUsernameById(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Username;
+        public string GetUserRole(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Role;
 
         public bool IsUserEmailAvailable(string email)
         {
@@ -95,7 +95,6 @@ namespace DAL.Repositories
             }
         }
 
-        public string GetUserRole(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Role;
 
         public bool IsUserNameAvailable(string username)
         {
@@ -134,10 +133,7 @@ namespace DAL.Repositories
                     Email = userAccount.Email,
                     DateOfBirth = userAccount.DateOfBirth,
                     isBlocked = false,// block in future to make email authentication.
-                    Role = "User",
-                    UserAccountHashTags = new List<UserAccountHashTag>(),
-                    GroupManagers = new List<GroupProfileManagers>(),
-                    GroupProfiles = new List<GroupProfileUserAccount>()
+                    Role = "User"
                 };
 
                 _context.UserAccounts.Add(newUser);
@@ -187,94 +183,17 @@ namespace DAL.Repositories
             }
         }
 
-        public bool Save()
+        public bool IsUserBlocked(int id)
         {
-            return _context.SaveChanges() >= 0 ? true : false;
+            return _context.UserAccounts.FirstOrDefault(u => u.Id == id).isBlocked;
         }
 
-
-
-
-
-
-
-
-
-
-        public bool AddUserGroupId(int userId, int groupId)
+        public bool UpdateUsername(int accId, string newUsername)
         {
-            var userFromDb = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
-            if (userFromDb != null)
-            {
-                var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == groupId);
-                if (groupProfile != null)
-                {
-                    GroupProfileUserAccount groupUser = new GroupProfileUserAccount()
-                    {
-                        UserAccount = userFromDb,
-                        UserAccountId = userFromDb.Id,
-                        GroupProfile = groupProfile,
-                        GroupProfileId = groupProfile.Id
-                    };
-                    userFromDb.GroupProfiles.Add(groupUser);
-                    groupProfile.MembersId.Add(groupUser);
-                    return Save();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool AddUserHashTag(int userId, int HashTagid)
-        {
-            var userFromDb = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
-            if (userFromDb != null)
-            {
-                var hashTag = _context.HashTags.FirstOrDefault(h => h.Id == HashTagid);
-                if (hashTag != null)
-                {
-                    UserAccountHashTag userHashTag = new UserAccountHashTag()
-                    {
-                        UserAccount = userFromDb,
-                        UserAccountId = userFromDb.Id,
-                        HashTag = hashTag,
-                        HashTagId = hashTag.Id
-                    };
-                    userFromDb.UserAccountHashTags.Add(userHashTag);
-                    hashTag.UserAccountHashTags.Add(userHashTag);
-                    return Save();
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        public bool BlockOrUnblockUser(string userName, bool isBlocked)
-        {
-            var userAccount = _context.UserAccounts.FirstOrDefault(a => a.Username == userName);
-
-            if (userAccount != null)
-            {
-                userAccount.isBlocked = isBlocked;
-                return Save();
-            }
-            else
-            {
-                return false;
-            }
+            var userAcc = _context.UserAccounts.FirstOrDefault(x => x.Id == accId);
+            if (userAcc == null) return false;
+            userAcc.Username = newUsername;
+            return Save();
         }
 
         public UserAccount GetUserById(int id)
@@ -292,98 +211,19 @@ namespace DAL.Repositories
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id).DateOfBirth;
         }
 
-        public IEnumerable<int> GetUserGroupsIdList(int id)
+        public bool BlockOrUnblockUser(string userName, bool isBlocked)
         {
-            var groupProfiles = _context.UserAccounts.FirstOrDefault(u => u.Id == id).GroupProfiles;
-            List<int> groupIdsList = new List<int>();
-            foreach (var group in groupProfiles)
-            {
-                groupIdsList.Add(group.GroupProfileId);
-            }
-            return groupIdsList;
-        }
+            var userAccount = _context.UserAccounts.FirstOrDefault(a => a.Username == userName);
 
-        public IEnumerable<HashTag> GetUserHashTags(int id)
-        {
-            var hashTags = _context.UserAccounts.FirstOrDefault(u => u.Id == id).UserAccountHashTags;
-            List<HashTag> hashTagsList = new List<HashTag>();
-            foreach (var hashTag in hashTags)
-            {
-                hashTagsList.Add(hashTag.HashTag);
-            }
-            return hashTagsList;
-        }
+            if (userAccount == null) return false;
 
-        public IEnumerable<string> GetUserHashTagsNames(int userId)
-        {
-            List<string> hashTagsList = new List<string>();
-            foreach (var hashTag in _context.UserAccountHashTags)
-            {
-                if (hashTag.UserAccountId == userId) hashTagsList.Add(_context.HashTags.FirstOrDefault(x => x.Id == hashTag.HashTagId).HashTagName);
-            }
-            return hashTagsList;
-        }
-
-        public bool IsUserBlocked(int id)
-        {
-            return _context.UserAccounts.FirstOrDefault(u => u.Id == id).isBlocked;
-        }
-
-        public bool UpdateUsername(int accId, string newUsername)
-        {
-            var userAcc = _context.UserAccounts.FirstOrDefault(x => x.Id == accId);
-            if (userAcc == null) return false;
-            userAcc.Username = newUsername;
+            userAccount.isBlocked = isBlocked;
             return Save();
         }
 
-        public bool AddHashTagToUserAccount(int hashTagId, int userAccId)
+        public bool Save()
         {
-            var userAccount = _context.UserAccounts.FirstOrDefault(x => x.Id == userAccId);
-            var hashTag = _context.HashTags.FirstOrDefault(x => x.Id == hashTagId);
-            if (userAccount == null || hashTag == null) return false;
-
-            var relation = new UserAccountHashTag() { UserAccount = userAccount, UserAccountId = userAccId, HashTag = hashTag, HashTagId = hashTagId };
-
-            if (userAccount.UserAccountHashTags == null) userAccount.UserAccountHashTags = new List<UserAccountHashTag>() { relation };
-            else userAccount.UserAccountHashTags.Add(relation);
-            _context.UserAccounts.Update(userAccount);
-
-            if (hashTag.UserAccountHashTags == null) hashTag.UserAccountHashTags = new List<UserAccountHashTag>() { relation };
-            else hashTag.UserAccountHashTags.Add(relation);
-            _context.HashTags.Update(hashTag);
-
-            _context.UserAccountHashTags.Add(relation);
-            return Save();
-        }
-
-        public bool AddHashTagToUserAccByName(string hashTagName, int userAccId)
-        {
-            // add check if already isnt added !
-            var hashTag = _context.HashTags.FirstOrDefault(x => x.HashTagName.ToUpper() == hashTagName.ToUpper());
-            if (hashTag == null) return false;
-            return AddHashTagToUserAccount(hashTag.Id, userAccId);
-        }
-
-        public bool RemoveHashTagFromAccByName(string hashTagName, int userAccId)
-        {
-            var userAcc = _context.UserAccounts.FirstOrDefault(x => x.Id == userAccId);
-            var accHashtag = _context.UserAccountHashTags.FirstOrDefault(x => x.HashTag.HashTagName == hashTagName && x.UserAccountId == userAccId);
-            var hashtag = _context.HashTags.FirstOrDefault(x => x.HashTagName == hashTagName);
-            if (userAcc == null || accHashtag == null || hashtag == null) return false;
-
-            try
-            {
-                userAcc.UserAccountHashTags.Remove(accHashtag);
-                hashtag.UserAccountHashTags.Remove(accHashtag);
-                _context.UserAccountHashTags.Remove(accHashtag);
-
-                return Save();
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            return _context.SaveChanges() >= 0 ? true : false;
         }
     }
 }

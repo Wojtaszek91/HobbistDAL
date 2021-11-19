@@ -14,6 +14,6 @@ namespace Models.Models
         [Required]
         public string HashTagName { get; set; }
         public int Popularity { get; set; }
-        public ICollection<UserAccountHashTag> UserAccountHashTags { get; set; }
+        public ICollection<UserProfileHashTag> UserAccountHashTags { get; set; }
     }
 }

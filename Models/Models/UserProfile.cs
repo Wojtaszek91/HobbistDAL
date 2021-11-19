@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Models.EntityFrameworkJoinEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,9 +16,13 @@ namespace Models.Models
         public string VideoLink { get; set; }
         public string ProfilePhoto { get; set; }
         public int ProfileViews { get; set; }    
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<UserProfileHashTag> UserProfileHashTags { get; set; }
+        public ICollection<GroupProfileUserProfile> GroupProfiles { get; set; }
+        public ICollection<GroupProfileManagers> GroupManagers { get; set; }
         public int UserAccountId { get; set; }
         [ForeignKey("UserAccountId")]
-        public virtual UserAccount UserAccount { get; set; }
-        public ICollection<UserAccount> FollowersId { get; set; }
+        public virtual UserProfile UserAccount { get; set; }
+        public ICollection<UserProfile> FollowersId { get; set; }
     }
 }

@@ -9,8 +9,8 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IUserAccountRepository
     {
-        public UserAccount GetUserById(int id);
-        public UserAccount GetUserByUserName(string username);
+        public UserProfile GetUserById(int id);
+        public UserProfile GetUserByUserName(string username);
         public string GetUserRole(int id);
         public string GetUserEmial(int id);
         public string GetUserUsernameById(int id);
@@ -24,7 +24,7 @@ namespace DAL.Repositories.IRepositories
         public bool IsUserNameAvailable(string username);
         public bool IsUserEmailAvailable(string email);
         public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key);
-        public UserAccount RegisterUser(UserAccount userAccount);
+        public UserProfile RegisterUser(UserProfile userAccount);
         public bool RemoveUser(LoginDetails loginDetails);
         public bool ChangeEmail(LoginDetails loginDetails, string newEmail);
         public bool AddUserGroupId(int userId, int groupId);

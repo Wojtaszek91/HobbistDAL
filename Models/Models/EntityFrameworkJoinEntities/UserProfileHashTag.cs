@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace Models.Models.EntityFrameworkJoinEntities
 {
-    public class UserAccountHashTag
+    public class UserProfileHashTag
     {
         public int HashTagId { get; set; }
         public HashTag HashTag { get; set; }
-        public int UserAccountId { get; set; }
-        public UserAccount UserAccount { get; set; }
-
+        public int UserProfileId { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

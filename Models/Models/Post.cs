@@ -30,7 +30,7 @@ namespace Models.Models
         [Required]
         public int UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual UserAccount UserAccount { get; set; }
+        public virtual UserProfile UserAccount { get; set; }
 
         [NotMapped]
         public List<int> FollowersList { get; set; } = new List<int>();

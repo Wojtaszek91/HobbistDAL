@@ -10,6 +10,6 @@ namespace Models.Models
     public class GroupProfile : UserProfile
     {
         public ICollection<GroupProfileManagers> ManagersId { get; set; }
-        public ICollection<GroupProfileUserAccount> MembersId { get; set; }
+        public ICollection<GroupProfileUserProfile> MembersId { get; set; }
     }
 }

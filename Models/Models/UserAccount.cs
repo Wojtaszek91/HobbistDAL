@@ -29,9 +29,6 @@ namespace Models.Models
         public bool isBlocked { get; set; }
 
         public ICollection<Post> Posts { get; set; }
-        public ICollection<UserAccountHashTag> UserAccountHashTags { get; set; }
-        public ICollection<GroupProfileUserAccount> GroupProfiles { get; set; }
-        public ICollection<GroupProfileManagers> GroupManagers { get; set; }
 
         public int? UserProfileId { get; set; }
         [ForeignKey("UserProfileId")]

@@ -19,7 +19,7 @@ namespace DAL.DataContext
         public DbSet<GroupProfile> GroupProfiles { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<HashTag> HashTags { get; set; }
-        public DbSet<UserAccountHashTag> UserAccountHashTags{ get; set; }
+        public DbSet<UserProfileHashTag> UserProfileHashTags{ get; set; }
         public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace DAL.DataContext
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<UserAccount>()
+            modelBuilder.Entity<UserProfile>()
                 .HasOne(ua => ua.UserProfile)
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
@@ -45,15 +45,15 @@ namespace DAL.DataContext
 
             #region UserAccountHashTagManyToMany
 
-            modelBuilder.Entity<UserAccountHashTag>()
+            modelBuilder.Entity<UserProfileHashTag>()
                 .HasKey(uaht => new { uaht.HashTagId, uaht.UserAccountId });
 
-            modelBuilder.Entity<UserAccountHashTag>()
+            modelBuilder.Entity<UserProfileHashTag>()
                 .HasOne(uaht => uaht.HashTag)
                 .WithMany(h => h.UserAccountHashTags)
                 .HasForeignKey(uaht => uaht.HashTagId);
 
-            modelBuilder.Entity<UserAccountHashTag>()
+            modelBuilder.Entity<UserProfileHashTag>()
                 .HasOne(uath => uath.UserAccount)
                 .WithMany(ua => ua.UserAccountHashTags)
                 .HasForeignKey(uath => uath.UserAccountId);
@@ -62,16 +62,16 @@ namespace DAL.DataContext
 
             #region GroupProfileUserAccounts
 
-            modelBuilder.Entity<GroupProfileUserAccount>()
-                .HasKey(gpua => new { gpua.GroupProfileId, gpua.UserAccountId });
+            modelBuilder.Entity<GroupProfileUserProfile>()
+                .HasKey(gpua => new { gpua.GroupProfileId, gpua.ProfileId });
 
-            modelBuilder.Entity<GroupProfileUserAccount>()
+            modelBuilder.Entity<GroupProfileUserProfile>()
                 .HasOne(gpua => gpua.GroupProfile)
                 .WithMany(gp => gp.MembersId)
                 .HasForeignKey(gpua => gpua.GroupProfileId);
 
-            modelBuilder.Entity<GroupProfileUserAccount>()
-                .HasOne(gpua => gpua.UserAccount)
+            modelBuilder.Entity<GroupProfileUserProfile>()
+                .HasOne(gpua => gpua.UserProfile)
                 .WithMany(ua => ua.GroupProfiles)
                 .HasForeignKey(gpua => gpua.UserAccountId);
 

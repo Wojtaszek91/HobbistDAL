@@ -10,7 +10,7 @@ namespace HobbistApi.Mappings
 {
     public static class PostMapper
     {
-        public static Post MapPostDtoToPost(PostDto postDto, UserAccount userAccount, HashTag hashTag)
+        public static Post MapPostDtoToPost(PostDto postDto, UserProfile userAccount, HashTag hashTag)
         {
             return new Post()
             {

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Models.Models.EntityFrameworkJoinEntities
 {
-    public class GroupProfileUserAccount
+    public class GroupProfileUserProfile
     {
         public int GroupProfileId { get; set; }
         public GroupProfile GroupProfile { get; set; }
-        public int UserAccountId { get; set; }
-        public UserAccount UserAccount { get; set; }
+        public int ProfileId { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }
