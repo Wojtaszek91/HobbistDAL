@@ -64,10 +64,11 @@ namespace DAL.Repositories
 
         public bool ChangeEmail(LoginDetails loginDetails, string newEmail)
         {
-            var userAccount = _context.UserAccounts.FirstOrDefault(a =>
+            UserAccount userAccount = _context.UserAccounts.FirstOrDefault(a =>
                 a.Email == loginDetails.Email
                 && a.Password == loginDetails.Password);
 
+            userAccount.Password = loginDetails.Password;
             if (userAccount != null) { userAccount.Email = newEmail; return Save(); }
             else return false; 
         }
