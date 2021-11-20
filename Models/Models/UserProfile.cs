@@ -23,7 +23,7 @@ namespace Models.Models
         public ICollection<GroupProfileManagers> GroupManagers { get; set; }
         public int UserAccountId { get; set; }
         [ForeignKey("UserAccountId")]
-        public virtual UserProfile UserAccount { get; set; }
+        public virtual UserAccount UserAccount { get; set; }
         public ICollection<UserProfile> FollowersId { get; set; }
     }
 }

@@ -18,13 +18,15 @@ namespace DAL.Repositories
     public class UserAccountRepository : IUserAccountRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly string _key;
 
-        public UserAccountRepository(ApplicationDbContext context)
+        public UserAccountRepository(ApplicationDbContext context, string key)
         {
             _context = context;
+            _key = key;
         }
 
-        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key)
+        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails)
         {
             var user = _context.UserAccounts.SingleOrDefault
                 (u => u.Email == loginDetails.Email && u.Password == loginDetails.Password);
@@ -32,7 +34,7 @@ namespace DAL.Repositories
 
             var expiresIn = DateTime.UtcNow.AddDays(1);
             var tokenHanlder = new JwtSecurityTokenHandler();
-            var secret = Encoding.ASCII.GetBytes(key);
+            var secret = Encoding.ASCII.GetBytes(_key);
             var tokenDescriptior = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[] {
@@ -71,7 +73,6 @@ namespace DAL.Repositories
         }
 
         public string GetUserEmial(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Email;
-        public string GetUserUsernameById(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Username;
         public string GetUserRole(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Role;
 
         public bool IsUserEmailAvailable(string email)
@@ -95,28 +96,6 @@ namespace DAL.Repositories
             }
         }
 
-
-        public bool IsUserNameAvailable(string username)
-        {
-            try
-            {
-                var users = _context.UserAccounts.OrderBy(u => u.Username).ToList();
-                foreach (var user in users)
-                {
-                    if (user.Username == username)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            catch(Exception e)
-            {
-                //log exception
-                return false;
-            }
-        }
-
         /// <summary>
         /// Method can be called only if username and email has been check to do not duplicate.
         /// </summary>
@@ -128,7 +107,6 @@ namespace DAL.Repositories
             {
                 UserAccount newUser = new UserAccount()
                 {
-                    Username = "",
                     Password = userAccount.Password,
                     Email = userAccount.Email,
                     DateOfBirth = userAccount.DateOfBirth,
@@ -188,22 +166,9 @@ namespace DAL.Repositories
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id).isBlocked;
         }
 
-        public bool UpdateUsername(int accId, string newUsername)
-        {
-            var userAcc = _context.UserAccounts.FirstOrDefault(x => x.Id == accId);
-            if (userAcc == null) return false;
-            userAcc.Username = newUsername;
-            return Save();
-        }
-
         public UserAccount GetUserById(int id)
         {
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id);
-        }
-
-        public UserAccount GetUserByUserName(string username)
-        {
-            return _context.UserAccounts.FirstOrDefault(u => u.Username == username);
         }
 
         public DateTime GetUserDateOfBirth(int id)
@@ -211,9 +176,9 @@ namespace DAL.Repositories
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id).DateOfBirth;
         }
 
-        public bool BlockOrUnblockUser(string userName, bool isBlocked)
+        public bool BlockOrUnblockUser(string email, bool isBlocked)
         {
-            var userAccount = _context.UserAccounts.FirstOrDefault(a => a.Username == userName);
+            var userAccount = _context.UserAccounts.FirstOrDefault(a => a.Email == email);
 
             if (userAccount == null) return false;
 

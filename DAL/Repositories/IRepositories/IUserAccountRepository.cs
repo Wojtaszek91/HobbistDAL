@@ -9,21 +9,17 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IUserAccountRepository
     {
-        AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key);
+        AuthenticateResponse AuthenticateUser(LoginDetails loginDetails);
         bool ChangeEmail(LoginDetails loginDetails, string newEmail);
         string GetUserEmial(int id);
-        string GetUserUsernameById(int id);
         string GetUserRole(int id);
         bool IsUserEmailAvailable(string email);
-        bool IsUserNameAvailable(string username);
         UserAccount RegisterUser(UserAccount userAccount);
         bool RemoveUser(LoginDetails loginDetails);
         bool UpdateUserDateOfBirth(LoginDetails loginDetails, DateTime dateOfBirth);
         bool AddProfileToAccount(UserProfile userProfile, int userAccountId);
         bool IsUserBlocked(int id);
-        bool UpdateUsername(int accId, string newUsername);
         UserAccount GetUserById(int id);
-        UserAccount GetUserByUserName(string username);
         DateTime GetUserDateOfBirth(int id);
         bool BlockOrUnblockUser(string userName, bool isBlocked);
         public bool Save();

@@ -32,7 +32,8 @@ namespace DAL.Repositories.IRepositories
         bool RemoveHashTagByNameFromUserProfile(string hashTagName, int userProfileId);
         bool AddUserGroupByIdToProfile(int profileId, int groupId);
         IEnumerable<int> GetUserGroupsIdListByProfileId(int profileId);
-
+        bool IsUserNameAvailable(string username);
+        bool UpdateUsername(int profileId, string newUsername);
         public bool Save();
     }
 }

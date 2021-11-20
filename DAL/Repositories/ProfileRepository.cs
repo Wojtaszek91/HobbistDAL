@@ -273,6 +273,20 @@ namespace DAL.Repositories
 
         #endregion Group
 
+        public bool IsUserNameAvailable(string username)
+        {
+            var user = _context.UserProfiles.FirstOrDefault(u => u.Username == username);
+            return user == null ? true : false;
+        }
+
+        public bool UpdateUsername(int profileId, string newUsername)
+        {
+            var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == profileId);
+            if (profile == null) return false;
+            profile.Username = newUsername;
+            return Save();
+        }
+
         public bool Save() => _context.SaveChanges() >= 0 ? true : false;
     }
 }
