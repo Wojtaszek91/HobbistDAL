@@ -9,7 +9,7 @@ namespace Models.Models.EntityFrameworkJoinEntities
     {
         public int GroupProfileId { get; set; }
         public GroupProfile GroupProfileManager { get; set; }
-        public int UserAccountManagerId { get; set; }
-        public UserProfile UserAccountManager { get; set; }
+        public int UserProfileManagerId { get; set; }
+        public UserProfile ProfileManager { get; set; }
     }
 }

@@ -119,7 +119,7 @@ namespace DAL.Repositories
 
             foreach(var manager in managersList)
             {
-                if(manager.UserAccountManagerId == userId)
+                if(manager.UserProfileManagerId == userId)
                 {
                     return true;
                 }
@@ -141,13 +141,13 @@ namespace DAL.Repositories
             return false;
         }
 
-        public bool SignInFollower(int id, int userId)
+        public bool SignInFollower(int id, int profileId)
         {
-            var followerAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var followerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
 
-            if(followerAccount != null)
+            if(followerProfile != null)
             {
-                _context.GroupProfiles.FirstOrDefault(g => g.Id == id).FollowersId.Add(followerAccount);
+                _context.GroupProfiles.FirstOrDefault(g => g.Id == id).FollowersId.Add(followerProfile);
                 return Save();
             }
             else
@@ -156,20 +156,20 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignInManager(int id, int userId)
+        public bool SignInManager(int id, int profileId)
         {
-            var managerAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var managerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
 
-            if(managerAccount != null && groupProfile != null)
+            if(managerProfile != null && groupProfile != null)
             {
                 GroupProfileManagers groupProfileManager = new GroupProfileManagers()
                 {
                     GroupProfileManager = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    UserAccountManager = managerAccount,
-                    UserAccountManagerId = managerAccount.Id
+                    ProfileManager = managerProfile,
+                    UserProfileManagerId = managerProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ManagersId.Add(groupProfileManager);
@@ -181,20 +181,20 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignInMember(int id, int userId)
+        public bool SignInMember(int id, int profileId)
         {
-            var memberAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var memberProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
 
-            if (memberAccount != null && groupProfile != null)
+            if (memberProfile != null && groupProfile != null)
             {
                 GroupProfileUserProfile groupProfileManager = new GroupProfileUserProfile()
                 {
                     GroupProfile = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    UserProfile = memberAccount,
-                    ProfileId = memberAccount.Id
+                    UserProfile = memberProfile,
+                    ProfileId = memberProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).MembersId.Add(groupProfileManager);
@@ -206,13 +206,13 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutFollower(int id, int userId)
+        public bool SignOutFollower(int id, int profileId)
         {
-            var followerAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var followerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
 
-            if (followerAccount != null)
+            if (followerProfile != null)
             {
-                _context.GroupProfiles.FirstOrDefault(g => g.Id == id).FollowersId.Remove(followerAccount);
+                _context.GroupProfiles.FirstOrDefault(g => g.Id == id).FollowersId.Remove(followerProfile);
                 return Save();
             }
             else
@@ -221,20 +221,20 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutManager(int id, int userId)
+        public bool SignOutManager(int id, int profileId)
         {
-            var managerAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var managerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
 
-            if (managerAccount != null && groupProfile != null)
+            if (managerProfile != null && groupProfile != null)
             {
                 GroupProfileManagers groupProfileManager = new GroupProfileManagers()
                 {
                     GroupProfileManager = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    UserAccountManager = managerAccount,
-                    UserAccountManagerId = managerAccount.Id
+                    ProfileManager = managerProfile,
+                    UserProfileManagerId = managerProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ManagersId.Remove(groupProfileManager);
@@ -246,20 +246,20 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutMember(int id, int userId)
+        public bool SignOutMember(int id, int profileId)
         {
-            var memberAccount = _context.UserAccounts.FirstOrDefault(u => u.Id == userId);
+            var memberProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
 
-            if (memberAccount != null && groupProfile != null)
+            if (memberProfile != null && groupProfile != null)
             {
                 GroupProfileUserProfile groupProfileManager = new GroupProfileUserProfile()
                 {
                     GroupProfile = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    UserProfile = memberAccount,
-                    ProfileId = memberAccount.Id
+                    UserProfile = memberProfile,
+                    ProfileId = memberProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).MembersId.Remove(groupProfileManager);

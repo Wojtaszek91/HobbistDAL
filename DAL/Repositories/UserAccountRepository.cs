@@ -69,7 +69,7 @@ namespace DAL.Repositories
                 && a.Password == loginDetails.Password);
 
             if (userAccount != null) { userAccount.Email = newEmail; return Save(); }
-            else { return false; }
+            else return false; 
         }
 
         public string GetUserEmial(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Email;

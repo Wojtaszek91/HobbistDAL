@@ -24,11 +24,6 @@ namespace DAL.DataContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Post>().Property(p => p.FollowersId)
-            //    .HasConversion(
-            //        v => string.Join(',', v),
-            //        v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
-
             #region UserProfileUserAccountOneToOne
 
             modelBuilder.Entity<UserProfile>()
@@ -36,7 +31,7 @@ namespace DAL.DataContext
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<UserProfile>()
+            modelBuilder.Entity<UserAccount>()
                 .HasOne(ua => ua.UserProfile)
                 .WithOne()
                 .OnDelete(DeleteBehavior.NoAction);
@@ -46,7 +41,7 @@ namespace DAL.DataContext
             #region UserAccountHashTagManyToMany
 
             modelBuilder.Entity<UserProfileHashTag>()
-                .HasKey(uaht => new { uaht.HashTagId, uaht.UserAccountId });
+                .HasKey(uaht => new { uaht.HashTagId, uaht.UserProfileId });
 
             modelBuilder.Entity<UserProfileHashTag>()
                 .HasOne(uaht => uaht.HashTag)
@@ -54,9 +49,9 @@ namespace DAL.DataContext
                 .HasForeignKey(uaht => uaht.HashTagId);
 
             modelBuilder.Entity<UserProfileHashTag>()
-                .HasOne(uath => uath.UserAccount)
-                .WithMany(ua => ua.UserAccountHashTags)
-                .HasForeignKey(uath => uath.UserAccountId);
+                .HasOne(uath => uath.UserProfile)
+                .WithMany(ua => ua.UserProfileHashTags)
+                .HasForeignKey(uath => uath.UserProfileId);
 
             #endregion UserAccountHashTagManyToMany
 
@@ -73,14 +68,14 @@ namespace DAL.DataContext
             modelBuilder.Entity<GroupProfileUserProfile>()
                 .HasOne(gpua => gpua.UserProfile)
                 .WithMany(ua => ua.GroupProfiles)
-                .HasForeignKey(gpua => gpua.UserAccountId);
+                .HasForeignKey(gpua => gpua.ProfileId);
 
             #endregion GroupProfileUserAccounts
 
             #region GroupProfileManagersAccounts
 
             modelBuilder.Entity<GroupProfileManagers>()
-                .HasKey(gpua => new { gpua.GroupProfileId, gpua.UserAccountManagerId });
+                .HasKey(gpua => new { gpua.GroupProfileId, gpua.UserProfileManagerId });
 
             modelBuilder.Entity<GroupProfileManagers>()
                 .HasOne(gpua => gpua.GroupProfileManager)
@@ -88,9 +83,9 @@ namespace DAL.DataContext
                 .HasForeignKey(gpua => gpua.GroupProfileId);
 
             modelBuilder.Entity<GroupProfileManagers>()
-                .HasOne(gpua => gpua.UserAccountManager)
+                .HasOne(gpua => gpua.ProfileManager)
                 .WithMany(ua => ua.GroupManagers)
-                .HasForeignKey(gpua => gpua.UserAccountManagerId);
+                .HasForeignKey(gpua => gpua.UserProfileManagerId);
 
             #endregion GroupProfileManagersAccounts
         }
