@@ -54,68 +54,51 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public HashTagDto EditHashTag(HashTagDto h)
+        public HashTagDto EditHashTag(HashTagDto hashtagDTO)
         {
-            if (h != null)
+            if (hashtagDTO != null)
             {
-                var tagFromDb = _context.HashTags.FirstOrDefault(dbH => dbH.HashTagName == h.HashTagName);
-                tagFromDb.HashTagName = h.HashTagName;
+                var tagFromDb = _context.HashTags.FirstOrDefault(dbH => dbH.HashTagName == hashtagDTO.HashTagName);
+                tagFromDb.HashTagName = hashtagDTO.HashTagName;
                 _context.HashTags.Update(tagFromDb);
             }
-            return Save() ? h : null;
+            return Save() ? hashtagDTO : null;
         }
 
-        public bool EditHashTagNoReturnType(HashTagDto h)
+        public bool EditHashTagNoReturnType(HashTagDto hashtagDTO)
         {
-            if (EditHashTag(h) != null)
-            {
-                return Save();
-            }
-            return false;
+            if (EditHashTag(hashtagDTO) == null) return false;
+
+            return Save();
         }
 
         public bool DoesHashTagExists(int id)
         {
-            if (_context.HashTags.FirstOrDefault(h => h.Id == id) != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (_context.HashTags.FirstOrDefault(h => h.Id == id) == null) return false;
+
+            return true;
         }
 
         public bool DeleteHashTag(int id)
         {
             var hashtag = _context.HashTags.FirstOrDefault(h => h.Id == id);
-            if (hashtag != null)
-            {
-                _context.HashTags.Remove(hashtag);
-                return Save();
-            }
-            else
-            {
-                return false;
-            }
+            if (hashtag == null) return false;
+
+            _context.HashTags.Remove(hashtag);
+            return Save();
         }
 
         public HashTagDto GetHashTagById(int id)
         {
             var tagFromDb = _context.HashTags.FirstOrDefault(h => h.Id == id);
-            if (tagFromDb != null)
+            if (tagFromDb == null) return null;
+
+            HashTagDto tagDto = new HashTagDto()
             {
-                HashTagDto tagDto = new HashTagDto()
-                {
-                    HashTagName = tagFromDb.HashTagName,
-                    Popularity = tagFromDb.Popularity
-                };
-                return tagDto;
-            }
-            else
-            {
-                return null;
-            }
+                HashTagName = tagFromDb.HashTagName,
+                Popularity = tagFromDb.Popularity
+            };
+            return tagDto;
         }
 
         public HashTag GetHashTagByName(string name)

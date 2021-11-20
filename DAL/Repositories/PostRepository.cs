@@ -42,6 +42,7 @@ namespace DAL.Repositories
             return Save();
         }
         #endregion Add
+
         #region Remove
         public bool RemoveFollower(int postId, int followerId)
         {
@@ -56,6 +57,7 @@ namespace DAL.Repositories
             return Save();
         }
         #endregion Remove
+
         #region Edit
         public Post EditBeginDate(DateTime beginDate, int id)
         {
@@ -104,6 +106,7 @@ namespace DAL.Repositories
             return Save();
         }
         #endregion Edit
+
         #region Get
         public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, int groupId, int index)
         {
@@ -164,6 +167,7 @@ namespace DAL.Repositories
                 .Skip(10 * index).Take(10); ;
         }
         #endregion GET
+
         public bool DoesPostExists(int postId)
         {
             return _context.Posts.FirstOrDefault(p => p.Id == postId) == null ? false : true;
