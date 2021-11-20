@@ -9,21 +9,30 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IUserProfileRepository
     {
-        public ProfileDto GetProfileById(int id);
-        public ProfileDto GetProfileByUserId(int userId);
-        public string GetProfileDescription(int id);
-        public string GetVideoLink(int id);
-        public string GetProfilePhoto(int id);
-        public int GetProfileViews(int id);
-        public int GetUserIdByProfileId(int id);
-        public bool CreateProfile(UserProfile userProfile);
-        public bool AddProfilePhotoBase64(string photoBase64, int userId);
-        public bool DeleteProfile(int id);
-        public bool UpdateProfile(ProfileDto userProfile);
-        public bool DoesProfileExist(int id);
-        public bool AddProfileView(int id);
-        public bool SignInFollower(int id, int userId);
-        public bool SignOutFollower(int id, int userId);
+        bool CreateProfile(UserProfile userProfile);
+        bool UpdateProfile(ProfileDto profileDto);
+        bool AddProfilePhotoBase64(string photoBase64, int userId);
+        bool DoesProfileExist(int userId);
+        bool DeleteProfile(int id);
+        ProfileDto GetProfileById(int id);
+        ProfileDto GetProfileByUserId(int userId);
+        bool AddProfileView(int id);
+        string GetProfileDescription(int id);
+        string GetProfilePhoto(int id);
+        int GetProfileViews(int id);
+        int GetUserIdByProfileId(int id);
+        string GetVideoLink(int id);
+        bool SignInFollower(int id, int followerProfileId);
+        bool SignOutFollower(int id, int followerProfileId);
+        IEnumerable<HashTag> GetUserHashTags(int profileId);
+        IEnumerable<string> GetProfileHashTagsNames(int profileId);
+        bool AddHashTagToProfileAccount(int hashTagId, int profileId);
+        bool AddHashTagByNameToUserProfile(string hashTagName, int profileId);
+        bool AddProfileHashtagById(int profileId, int HashTagid);
+        bool RemoveHashTagByNameFromUserProfile(string hashTagName, int userProfileId);
+        bool AddUserGroupByIdToProfile(int profileId, int groupId);
+        IEnumerable<int> GetUserGroupsIdListByProfileId(int profileId);
+
         public bool Save();
     }
 }

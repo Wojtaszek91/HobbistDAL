@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class ProfileRepository : IUserProfileRepository // update interface after refactor
+    public class ProfileRepository : IUserProfileRepository
     {
         private readonly ApplicationDbContext _context;
         public ProfileRepository(ApplicationDbContext context)

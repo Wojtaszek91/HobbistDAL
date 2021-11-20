@@ -9,31 +9,23 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IUserAccountRepository
     {
-        public UserProfile GetUserById(int id);
-        public UserProfile GetUserByUserName(string username);
-        public string GetUserRole(int id);
-        public string GetUserEmial(int id);
-        public string GetUserUsernameById(int id);
-        public DateTime GetUserDateOfBirth(int id);
-        public IEnumerable<HashTag> GetUserHashTags(int id);
-        public IEnumerable<string> GetUserHashTagsNames(int id);
-        public IEnumerable<int> GetUserGroupsIdList(int id);
-        public bool AddProfileToAccount(UserProfile userProfile, int userAccountId);
-        public bool IsUserBlocked(int id);
-        public bool BlockOrUnblockUser(string userName, bool isBlocked);
-        public bool IsUserNameAvailable(string username);
-        public bool IsUserEmailAvailable(string email);
-        public AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key);
-        public UserProfile RegisterUser(UserProfile userAccount);
-        public bool RemoveUser(LoginDetails loginDetails);
-        public bool ChangeEmail(LoginDetails loginDetails, string newEmail);
-        public bool AddUserGroupId(int userId, int groupId);
-        public bool AddUserHashTag(int userId, int HashTagid);
-        public bool UpdateUsername(int accId, string newUsername);
-        public bool UpdateUserDateOfBirth(LoginDetails loginDetails, DateTime dateOfBirth);
-        public bool AddHashTagToUserAccount(int hashTagId, int userAccId);
-        public bool AddHashTagToUserAccByName(string hashTagName, int userAccId);
-        public bool RemoveHashTagFromAccByName(string hashTagName, int userAccId);
+        AuthenticateResponse AuthenticateUser(LoginDetails loginDetails, string key);
+        bool ChangeEmail(LoginDetails loginDetails, string newEmail);
+        string GetUserEmial(int id);
+        string GetUserUsernameById(int id);
+        string GetUserRole(int id);
+        bool IsUserEmailAvailable(string email);
+        bool IsUserNameAvailable(string username);
+        UserAccount RegisterUser(UserAccount userAccount);
+        bool RemoveUser(LoginDetails loginDetails);
+        bool UpdateUserDateOfBirth(LoginDetails loginDetails, DateTime dateOfBirth);
+        bool AddProfileToAccount(UserProfile userProfile, int userAccountId);
+        bool IsUserBlocked(int id);
+        bool UpdateUsername(int accId, string newUsername);
+        UserAccount GetUserById(int id);
+        UserAccount GetUserByUserName(string username);
+        DateTime GetUserDateOfBirth(int id);
+        bool BlockOrUnblockUser(string userName, bool isBlocked);
         public bool Save();
 
     }
