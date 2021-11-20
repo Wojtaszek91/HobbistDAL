@@ -12,9 +12,6 @@ namespace Models.Models
     {
         [Key]
         public int Id { get; set; }
-        [MinLength(6)]
-        [MaxLength(25)]
-        public string Username { get; set; }
         [Required]
         [MinLength(8)]
         public string Email { get; set; }

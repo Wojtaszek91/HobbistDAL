@@ -13,6 +13,7 @@ namespace HobbistApi.Mappings
         {
             return new ProfileDto()
             {
+                Username = profile.Username,
                 Description = profile.Description,
                 VideoLink = profile.VideoLink,
                 ProfilePhoto = profile.ProfilePhoto,
@@ -23,8 +24,9 @@ namespace HobbistApi.Mappings
 
         public static UserProfile MapProfileDtoToProfile(ProfileDto profileDto)
         {
-            return new UserProfile()
-            {
+        return new UserProfile()
+        {
+            Username = profileDto.Username,
                 Description = profileDto.Description,
                 VideoLink = profileDto.VideoLink,
                 ProfilePhoto = profileDto.ProfilePhoto,
