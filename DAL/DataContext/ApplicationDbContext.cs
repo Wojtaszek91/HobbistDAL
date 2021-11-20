@@ -55,7 +55,7 @@ namespace DAL.DataContext
 
             #endregion UserAccountHashTagManyToMany
 
-            #region GroupProfileUserAccounts
+            #region GroupProfileUserProfile
 
             modelBuilder.Entity<GroupProfileUserProfile>()
                 .HasKey(gpua => new { gpua.GroupProfileId, gpua.ProfileId });
@@ -63,29 +63,31 @@ namespace DAL.DataContext
             modelBuilder.Entity<GroupProfileUserProfile>()
                 .HasOne(gpua => gpua.GroupProfile)
                 .WithMany(gp => gp.MembersId)
-                .HasForeignKey(gpua => gpua.GroupProfileId);
+                .HasForeignKey(gpua => gpua.GroupProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<GroupProfileUserProfile>()
                 .HasOne(gpua => gpua.UserProfile)
                 .WithMany(ua => ua.GroupProfiles)
-                .HasForeignKey(gpua => gpua.ProfileId);
+                .HasForeignKey(gpua => gpua.ProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             #endregion GroupProfileUserAccounts
 
             #region GroupProfileManagersAccounts
 
             modelBuilder.Entity<GroupProfileManagers>()
-                .HasKey(gpua => new { gpua.GroupProfileId, gpua.UserProfileManagerId });
+                .HasKey(gpua => new { gpua.GroupProfileId, gpua.UserProfileId });
 
             modelBuilder.Entity<GroupProfileManagers>()
-                .HasOne(gpua => gpua.GroupProfileManager)
+                .HasOne(gpua => gpua.GroupProfile)
                 .WithMany(gp => gp.ManagersId)
-                .HasForeignKey(gpua => gpua.GroupProfileId);
+                .HasForeignKey(gpua => gpua.GroupProfileId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<GroupProfileManagers>()
-                .HasOne(gpua => gpua.ProfileManager)
+                .HasOne(gpua => gpua.UserProfile)
                 .WithMany(ua => ua.GroupManagers)
-                .HasForeignKey(gpua => gpua.UserProfileManagerId);
+                .HasForeignKey(gpua => gpua.UserProfileId).OnDelete(DeleteBehavior.NoAction);
 
             #endregion GroupProfileManagersAccounts
         }

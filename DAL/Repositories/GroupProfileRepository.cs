@@ -119,7 +119,7 @@ namespace DAL.Repositories
 
             foreach(var manager in managersList)
             {
-                if(manager.UserProfileManagerId == userId)
+                if(manager.UserProfileId == userId)
                 {
                     return true;
                 }
@@ -166,10 +166,10 @@ namespace DAL.Repositories
             {
                 GroupProfileManagers groupProfileManager = new GroupProfileManagers()
                 {
-                    GroupProfileManager = groupProfile,
+                    GroupProfile = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    ProfileManager = managerProfile,
-                    UserProfileManagerId = managerProfile.Id
+                    UserProfile = managerProfile,
+                    UserProfileId = managerProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ManagersId.Add(groupProfileManager);
@@ -231,10 +231,10 @@ namespace DAL.Repositories
             {
                 GroupProfileManagers groupProfileManager = new GroupProfileManagers()
                 {
-                    GroupProfileManager = groupProfile,
+                    GroupProfile = groupProfile,
                     GroupProfileId = groupProfile.Id,
-                    ProfileManager = managerProfile,
-                    UserProfileManagerId = managerProfile.Id
+                    UserProfile = managerProfile,
+                    UserProfileId = managerProfile.Id
                 };
 
                 _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ManagersId.Remove(groupProfileManager);

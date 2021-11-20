@@ -8,8 +8,8 @@ namespace Models.Models.EntityFrameworkJoinEntities
     public class GroupProfileManagers
     {
         public int GroupProfileId { get; set; }
-        public GroupProfile GroupProfileManager { get; set; }
-        public int UserProfileManagerId { get; set; }
-        public UserProfile ProfileManager { get; set; }
+        public GroupProfile GroupProfile { get; set; }
+        public int UserProfileId { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }
