@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Models.Models.DTOs
 {
-    public class AccountAndUsername
+    public class LoginDetailsAndUsername
     {
-        public int AccountId { get; set; }
+        public LoginDetails LoginDetails { get; set; }
         public string Username { get; set; }
     }
 }
