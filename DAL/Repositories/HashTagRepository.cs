@@ -18,7 +18,9 @@ namespace DAL.Repositories
             _context = context;
         }
 
-        public List<HashTagDto> GetAllHashtags()
+        public IEnumerable<string> GetAllHashTagNames() => _context.HashTags.Select(x => x.HashTagName).ToList();
+
+        public IEnumerable<HashTagDto> GetAllHashtags()
         {
             List<HashTagDto> hashtagDtoList = new List<HashTagDto>();
             foreach (var hashTag in _context.HashTags.ToList()) { hashtagDtoList.Add(HashtagMapper.MapHashTagToDto(hashTag)); }

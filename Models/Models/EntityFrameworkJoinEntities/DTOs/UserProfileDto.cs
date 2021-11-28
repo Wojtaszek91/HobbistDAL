@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Models.Models.EntityFrameworkJoinEntities.DTOs
 {
-    public class ProfileDto
+    public class UserProfileDto
     {
         public string Username { get; set; }
         public string Description { get; set; }

@@ -9,9 +9,9 @@ namespace HobbistApi.Mappings
 {
     public static class ProfileMapper
     {
-        public static ProfileDto MapProfileToProfileDto(UserProfile profile)
+        public static UserProfileDto MapProfileToProfileDto(UserProfile profile)
         {
-            return new ProfileDto()
+            return new UserProfileDto()
             {
                 Username = profile.Username,
                 Description = profile.Description,
@@ -22,7 +22,7 @@ namespace HobbistApi.Mappings
             };
         }
 
-        public static UserProfile MapProfileDtoToProfile(ProfileDto profileDto)
+        public static UserProfile MapProfileDtoToProfile(UserProfileDto profileDto)
         {
         return new UserProfile()
         {

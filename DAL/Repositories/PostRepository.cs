@@ -135,7 +135,7 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetPostsByUserId(int userId, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.UserId == userId)
+                .Where(p => p.UserProfileId == userId)
                 .OrderBy(p => p.BeginDate)
                 .Skip(10 * index).Take(10);
         }
@@ -151,7 +151,7 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetPostsByUserIdAndHashTag(int userId, string hashTagName, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.UserId == userId && p.ChainedTag.HashTagName == hashTagName)
+                .Where(p => p.UserProfileId == userId && p.ChainedTag.HashTagName == hashTagName)
                 .Skip(10 * index).Take(10); ;
         }
 
@@ -163,7 +163,7 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, int userId, int index)
         {
             var date = endDate - beginDate;
-            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.UserId == userId)
+            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.UserProfileId == userId)
                 .Skip(10 * index).Take(10); ;
         }
         #endregion GET

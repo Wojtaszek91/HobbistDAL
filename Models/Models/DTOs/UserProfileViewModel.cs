@@ -8,7 +8,7 @@ namespace Models.Models.DTOs
 {
     public class UserProfileViewModel
     {
-        public ProfileDto UserProfle { get; set; }
+        public UserProfileDto UserProfle { get; set; }
         public IEnumerable<string> HashTags { get; set; }
     }
 }

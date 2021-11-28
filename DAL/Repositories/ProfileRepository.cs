@@ -27,7 +27,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool UpdateProfile(ProfileDto profileDto)
+        public bool UpdateProfile(UserProfileDto profileDto)
         {
             var profile = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == profileDto.UserAccountId);
             if (profile == null) return false;
@@ -62,7 +62,15 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public ProfileDto GetProfileById(int id)
+        public UserProfile GetProfileById(int id)
+        {
+            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
+            if (profileFromDb == null) return null;
+
+            return profileFromDb;
+        }
+
+        public UserProfileDto GetProfileByIdDto(int id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
@@ -70,7 +78,7 @@ namespace DAL.Repositories
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public ProfileDto GetProfileByUserId(int userId)
+        public UserProfileDto GetProfileByUserId(int userId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId);
             if (profileFromDb == null) return null;
