@@ -10,7 +10,7 @@ namespace HobbistApi.Mappings
 {
     public static class PostMapper
     {
-        public static Post MapPostDtoToPost(PostDto postDto, UserProfile userAccount, HashTag hashTag)
+        public static Post MapPostDtoToPost(PostDto postDto, UserProfile userProfile, HashTag hashTag)
         {
             return new Post()
             {
@@ -24,7 +24,7 @@ namespace HobbistApi.Mappings
                 BeginDate = postDto.BeginDate,
                 DayLast = postDto.DayLast,
                 UserId = postDto.AccountId,
-                UserAccount = userAccount,
+                UserProfile = userProfile,
                 IsBlocked = postDto.IsBlocked
                 
             };
