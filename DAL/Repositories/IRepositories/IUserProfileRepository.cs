@@ -11,7 +11,7 @@ namespace DAL.Repositories.IRepositories
     {
         bool CreateProfile(UserProfile userProfile);
         bool UpdateProfile(UserProfileDto profileDto);
-        bool AddProfilePhotoBase64(string photoBase64, int userId);
+        bool UpdateProfilePhotoBase64(string photoBase64, int userId);
         bool DoesProfileExist(int userId);
         bool DeleteProfile(int id);
         UserProfile GetProfileById(int id);
