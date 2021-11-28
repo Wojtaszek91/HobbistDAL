@@ -90,6 +90,8 @@ namespace DAL.Repositories
             return Save();
         }
 
+        public ICollection<string> GetAllHashTagNames() => _context.HashTags.Select(x => x.HashTagName).ToList();
+
         public HashTagDto GetHashTagById(int id)
         {
             var tagFromDb = _context.HashTags.FirstOrDefault(h => h.Id == id);

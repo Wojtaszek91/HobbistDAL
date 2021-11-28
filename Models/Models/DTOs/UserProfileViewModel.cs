@@ -9,6 +9,6 @@ namespace Models.Models.DTOs
     public class UserProfileViewModel
     {
         public UserProfileDto UserProfle { get; set; }
-        public IEnumerable<string> HashTags { get; set; }
+        public IEnumerable<string> HashTagNames { get; set; }
     }
 }
