@@ -23,7 +23,7 @@ namespace HobbistApi.Mappings
                 AverageMark = postDto.AverageMark,
                 BeginDate = postDto.BeginDate,
                 DayLast = postDto.DayLast,
-                UserId = postDto.AccountId,
+                UserProfileId = postDto.ProfileId,
                 UserProfile = userProfile,
                 IsBlocked = postDto.IsBlocked
                 
@@ -46,7 +46,7 @@ namespace HobbistApi.Mappings
                     AverageMark = post.AverageMark,
                     DayLast = post.DayLast,
                     BeginDate = post.BeginDate,
-                    AccountId = post.UserId,
+                    ProfileId = post.UserProfileId,
                     IsFollowed = CheckIfPostIsfollowed(post.FollowersList, requestingUserId),
                     IsBlocked = post.IsBlocked
                 };

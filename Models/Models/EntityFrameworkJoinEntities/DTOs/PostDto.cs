@@ -17,7 +17,7 @@ namespace Models.Models.EntityFrameworkJoinEntities.DTOs
         public int AverageMark { get; set; }
         public int DayLast { get; set; }
         public DateTime BeginDate { get; set; }
-        public int AccountId { get; set; }
+        public int ProfileId { get; set; }
         public bool IsFollowed { get; set; }
         public bool IsBlocked { get; set; }
     }

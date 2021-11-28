@@ -28,8 +28,8 @@ namespace Models.Models
         [Required]
         public DateTime BeginDate { get; set; }
         [Required]
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
+        public int UserProfileId { get; set; }
+        [ForeignKey("UserProfileId")]
         public virtual UserProfile UserProfile { get; set; }
 
         [NotMapped]

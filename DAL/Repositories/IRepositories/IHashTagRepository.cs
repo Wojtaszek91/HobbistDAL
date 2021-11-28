@@ -10,19 +10,20 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IHashTagRepository
     {
-        public List<HashTagDto> GetAllHashtags();
-        public HashTagDto GetHashTagById(int id);
-        public int GetHashTagPopularity(int id);
-        public HashTag GetHashTagByName(string name);
-        public int GetHashTagPopularityByName(string name);
-        public bool AddPopularity(int id);
-        public bool DecreasePopuplarity(int id);
-        public bool DoesHashTagExists(int id);
-        public bool DeleteHashTag(int id);
-        public bool AddHashTag(string h);
-        public bool RemoveHashTag(int id);
-        public HashTagDto EditHashTag(HashTagDto h);
-        public bool EditHashTagNoReturnType(HashTagDto h);
-        public bool Save();
+        ICollection<string> GetAllHashTagNames();
+        List<HashTagDto> GetAllHashtags();
+        HashTagDto GetHashTagById(int id);
+        int GetHashTagPopularity(int id);
+        HashTag GetHashTagByName(string name);
+        int GetHashTagPopularityByName(string name);
+        bool AddPopularity(int id);
+        bool DecreasePopuplarity(int id);
+        bool DoesHashTagExists(int id);
+        bool DeleteHashTag(int id);
+        bool AddHashTag(string h);
+        bool RemoveHashTag(int id);
+        HashTagDto EditHashTag(HashTagDto h);
+        bool EditHashTagNoReturnType(HashTagDto h);
+        bool Save();
     }
 }

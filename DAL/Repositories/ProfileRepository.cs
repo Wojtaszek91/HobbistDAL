@@ -27,24 +27,25 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool UpdateProfile(ProfileDto profileDto)
+        public bool UpdateProfile(UserProfileDto profileDto)
         {
             var profile = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == profileDto.UserAccountId);
             if (profile == null) return false;
 
-            profile.Description = profileDto.Description;
-            profile.ProfilePhoto = profileDto.ProfilePhoto;
-            profile.VideoLink = profileDto.VideoLink;
+            if (!string.IsNullOrEmpty(profileDto.Username) && profile.Username != profileDto.Username) profile.Username = profileDto.Username;
+            if (!string.IsNullOrEmpty(profileDto.Description) && profile.Description != profileDto.Description) profile.Description = profileDto.Description;
+            if (!string.IsNullOrEmpty(profileDto.ProfilePhoto) && profile.ProfilePhoto != profileDto.ProfilePhoto) profile.ProfilePhoto = profileDto.ProfilePhoto;
+            if (!string.IsNullOrEmpty(profileDto.VideoLink) && profile.VideoLink != profileDto.VideoLink) profile.VideoLink = profileDto.VideoLink;
 
             return Save();
         }
 
-        public bool AddProfilePhotoBase64(string photoBase64, int userId)
+        public bool UpdateProfilePhotoBase64(string photoBase64, int userProfileId)
         {
-            var user = _context.UserProfiles.FirstOrDefault(x => x.UserAccountId == userId);
-            if (user == null) return false;
+            var userProfile = _context.UserProfiles.FirstOrDefault(x => x.Id == userProfileId);
+            if (userProfile == null) return false;
 
-            user.ProfilePhoto = photoBase64;
+            userProfile.ProfilePhoto = photoBase64;
 
             return Save();
         }
@@ -62,7 +63,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public ProfileDto GetProfileById(int id)
+        public UserProfileDto GetProfileByIdDto(int id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
@@ -70,7 +71,15 @@ namespace DAL.Repositories
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public ProfileDto GetProfileByUserId(int userId)
+        public UserProfile GetProfileById(int id)
+        {
+            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
+            if (profileFromDb == null) return null;
+
+            return profileFromDb;
+        }
+
+        public UserProfileDto GetProfileByUserId(int userId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId);
             if (profileFromDb == null) return null;
