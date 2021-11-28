@@ -63,20 +63,20 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public UserProfileDto GetProfileByIdDto(int id)
-        {
-            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
-            if (profileFromDb == null) return null;
-
-            return ProfileMapper.MapProfileToProfileDto(profileFromDb);
-        }
-
         public UserProfile GetProfileById(int id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
 
             return profileFromDb;
+        }
+
+        public UserProfileDto GetProfileByIdDto(int id)
+        {
+            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
+            if (profileFromDb == null) return null;
+
+            return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
         public UserProfileDto GetProfileByUserId(int userId)

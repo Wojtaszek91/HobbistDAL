@@ -29,6 +29,7 @@ namespace Models.Models
         public DateTime BeginDate { get; set; }
         [Required]
         public int UserProfileId { get; set; }
+      
         [ForeignKey("UserProfileId")]
         public virtual UserProfile UserProfile { get; set; }
 

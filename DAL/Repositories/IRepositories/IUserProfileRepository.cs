@@ -11,11 +11,11 @@ namespace DAL.Repositories.IRepositories
     {
         bool CreateProfile(UserProfile userProfile);
         bool UpdateProfile(UserProfileDto profileDto);
-        bool UpdateProfilePhotoBase64(string photoBase64, int userId);
+        bool AddProfilePhotoBase64(string photoBase64, int userId);
         bool DoesProfileExist(int userId);
         bool DeleteProfile(int id);
-        UserProfileDto GetProfileByIdDto(int id);
         UserProfile GetProfileById(int id);
+        UserProfileDto GetProfileByIdDto(int id);
         UserProfileDto GetProfileByUserId(int userId);
         bool AddProfileView(int id);
         string GetProfileDescription(int id);
