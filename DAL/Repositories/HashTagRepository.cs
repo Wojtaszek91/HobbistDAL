@@ -20,12 +20,20 @@ namespace DAL.Repositories
 
         public IEnumerable<string> GetAllHashTagNames() => _context.HashTags.Select(x => x.HashTagName).ToList();
 
-        public IEnumerable<HashTagDto> GetAllHashtags()
+        public List<HashTagDto> GetAllHashtagsDto()
         {
             List<HashTagDto> hashtagDtoList = new List<HashTagDto>();
             foreach (var hashTag in _context.HashTags.ToList()) { hashtagDtoList.Add(HashtagMapper.MapHashTagToDto(hashTag)); }
 
             return hashtagDtoList;
+        }
+
+        public List<HashTag> GetAllHashtags()
+        {
+            List<HashTag> hashTagList = new List<HashTag>();
+            foreach (var hashTag in _context.HashTags.ToList()) { hashTagList.Add(hashTag); }
+
+            return hashTagList;
         }
 
         public bool AddHashTag(string h)

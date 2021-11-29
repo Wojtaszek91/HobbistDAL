@@ -10,7 +10,8 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IHashTagRepository
     {
-        List<HashTagDto> GetAllHashtags();
+        List<HashTag> GetAllHashtags();
+        List<HashTagDto> GetAllHashtagsDto();
         IEnumerable<string> GetAllHashTagNames();
         HashTagDto GetHashTagById(int id);
         int GetHashTagPopularity(int id);
