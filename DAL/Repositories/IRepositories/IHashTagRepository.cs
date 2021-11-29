@@ -23,7 +23,7 @@ namespace DAL.Repositories.IRepositories
         bool DeleteHashTag(int id);
         bool AddHashTag(string h);
         bool RemoveHashTag(int id);
-        HashTagDto EditHashTag(HashTagDto h);
+        bool EditHashTag(HashTagDto h);
         bool EditHashTagNoReturnType(HashTagDto h);
         bool Save();
     }

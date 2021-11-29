@@ -64,7 +64,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public HashTagDto EditHashTag(HashTagDto hashtagDTO)
+        public bool EditHashTag(HashTagDto hashtagDTO)
         {
             if (hashtagDTO != null)
             {
@@ -72,7 +72,7 @@ namespace DAL.Repositories
                 tagFromDb.HashTagName = hashtagDTO.HashTagName;
                 _context.HashTags.Update(tagFromDb);
             }
-            return Save() ? hashtagDTO : null;
+            return Save();
         }
 
         public bool EditHashTagNoReturnType(HashTagDto hashtagDTO)
