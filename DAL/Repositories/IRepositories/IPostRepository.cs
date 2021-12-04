@@ -10,11 +10,11 @@ namespace DAL.Repositories.IRepositories
     public interface IPostRepository
     {
         public Post GetPostById(int id);
-        public IEnumerable<Post> GetPostsByUserId(int userId, int index);
+        public IEnumerable<Post> GetPostsByProfileId(int profileId, int index);
         public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, int userId, int index);
         public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, int groupId, int index);
         public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, int hashTagId, int index);
-        public IEnumerable<Post> GetPostsByUserIdAndHashTag(int userId, string hashTagName, int index);
+        public IEnumerable<Post> GetPostsByProfileIdAndHashTag(int profileId, string hashTagName, int index);
         public IEnumerable<Post> GetPostsByHashTag(string hashTag, int index);
         public int GetPostAverageMark(int id);
         public int GetPostViews(int id);
