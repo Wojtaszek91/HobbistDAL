@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.Models
 {
-    class UserMessage
+    public class UserMessage
     {
         public Guid Id { get; set; }
         public int SenderProfileId { get; set; }
