@@ -21,6 +21,7 @@ namespace DAL.DataContext
         public DbSet<HashTag> HashTags { get; set; }
         public DbSet<UserProfileHashTag> UserProfileHashTags{ get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
