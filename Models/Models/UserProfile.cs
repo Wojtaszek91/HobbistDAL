@@ -10,6 +10,7 @@ namespace Models.Models
 {
     public class UserProfile
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         public string Username { get; set; }
