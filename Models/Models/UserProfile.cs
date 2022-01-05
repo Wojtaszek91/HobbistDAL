@@ -11,7 +11,7 @@ namespace Models.Models
     public class UserProfile
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Username { get; set; }
         public string Description { get; set; }
         public string VideoLink { get; set; }
@@ -21,7 +21,7 @@ namespace Models.Models
         public ICollection<UserProfileHashTag> UserProfileHashTags { get; set; }
         public ICollection<GroupProfileUserProfile> GroupProfiles { get; set; }
         public ICollection<GroupProfileManagers> GroupManagers { get; set; }
-        public int UserAccountId { get; set; }
+        public Guid UserAccountId { get; set; }
         [ForeignKey("UserAccountId")]
         public virtual UserAccount UserAccount { get; set; }
         public ICollection<UserProfile> FollowersId { get; set; }

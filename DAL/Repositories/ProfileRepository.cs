@@ -40,7 +40,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool UpdateProfilePhotoBase64(string photoBase64, int userProfileId)
+        public bool UpdateProfilePhotoBase64(string photoBase64, Guid userProfileId)
         {
             var userProfile = _context.UserProfiles.FirstOrDefault(x => x.Id == userProfileId);
             if (userProfile == null) return false;
@@ -50,9 +50,9 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool DoesProfileExist(int userId) => _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId) == null ? false : true;
+        public bool DoesProfileExist(Guid userId) => _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId) == null ? false : true;
 
-        public bool DeleteProfile(int id)
+        public bool DeleteProfile(Guid id)
         {
             var userProfile = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (userProfile == null) return false;
@@ -63,7 +63,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public UserProfile GetProfileById(int id)
+        public UserProfile GetProfileById(Guid id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
@@ -71,7 +71,7 @@ namespace DAL.Repositories
             return profileFromDb;
         }
 
-        public UserProfileDto GetProfileByIdDto(int id)
+        public UserProfileDto GetProfileByIdDto(Guid id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
@@ -79,7 +79,7 @@ namespace DAL.Repositories
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public UserProfileDto GetProfileByUserId(int userId)
+        public UserProfileDto GetProfileByUserId(Guid userId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId);
             if (profileFromDb == null) return null;
@@ -87,7 +87,7 @@ namespace DAL.Repositories
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public bool AddProfileView(int id)
+        public bool AddProfileView(Guid id)
         {
             _context.UserProfiles.FirstOrDefault(p => p.Id == id).ProfileViews++;
             return Save();
@@ -96,34 +96,34 @@ namespace DAL.Repositories
         #endregion BasicCRUD
 
         #region GetProfileParts
-        public string GetProfileDescription(int id)
+        public string GetProfileDescription(Guid id)
         {
             return _context.UserProfiles.FirstOrDefault(p => p.Id == id).Description;
         }
 
-        public string GetProfilePhoto(int id)
+        public string GetProfilePhoto(Guid id)
         {
             return _context.UserProfiles.FirstOrDefault(p => p.Id == id).ProfilePhoto;
         }
 
-        public int GetProfileViews(int id)
+        public int GetProfileViews(Guid id)
         {
             return _context.UserProfiles.FirstOrDefault(p => p.Id == id).ProfileViews;
         }
 
-        public int GetUserIdByProfileId(int id)
+        public Guid GetUserIdByProfileId(Guid id)
         {
             return _context.UserProfiles.FirstOrDefault(u => u.Id == id).UserAccountId;
         }
 
-        public string GetVideoLink(int id)
+        public string GetVideoLink(Guid id)
         {
             return _context.UserProfiles.FirstOrDefault(u => u.Id == id).VideoLink;
         }
         #endregion GetProfileParts
 
         #region Followers
-        public bool SignInFollower(int id, int followerProfileId)
+        public bool SignInFollower(Guid id, Guid followerProfileId)
         {
             var followerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == followerProfileId);
             if (followerProfile == null) return false;
@@ -135,7 +135,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool SignOutFollower(int id, int followerProfileId)
+        public bool SignOutFollower(Guid id, Guid followerProfileId)
         {
             var followerAccount = _context.UserProfiles.FirstOrDefault(u => u.Id == followerProfileId);
             if (followerAccount == null) return false;
@@ -149,7 +149,7 @@ namespace DAL.Repositories
         #endregion Followers
 
         #region HashTag
-        public IEnumerable<HashTag> GetUserHashTags(int profileId)
+        public IEnumerable<HashTag> GetUserHashTags(Guid profileId)
         {
             var hashTags = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId).UserProfileHashTags;
             List<HashTag> hashTagsList = new List<HashTag>();
@@ -160,7 +160,7 @@ namespace DAL.Repositories
             return hashTagsList;
         }
 
-        public IEnumerable<string> GetProfileHashTagsNames(int profileId)
+        public IEnumerable<string> GetProfileHashTagsNames(Guid profileId)
         {
             List<string> hashTagsList = new List<string>();
             foreach (var hashTag in _context.UserProfileHashTags)
@@ -170,7 +170,7 @@ namespace DAL.Repositories
             return hashTagsList;
         }
 
-        public bool AddHashTagToProfileAccount(int hashTagId, int profileId)
+        public bool AddHashTagToProfileAccount(Guid hashTagId, Guid profileId)
         {
             var hashTag = _context.HashTags.FirstOrDefault(x => x.Id == hashTagId);
             var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == profileId);
@@ -194,7 +194,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool AddHashTagByNameToUserProfile(string hashTagName, int profileId)
+        public bool AddHashTagByNameToUserProfile(string hashTagName, Guid profileId)
         {
             // add check if already isnt added !
             var hashTag = _context.HashTags.FirstOrDefault(x => x.HashTagName.ToUpper() == hashTagName.ToUpper());
@@ -202,7 +202,7 @@ namespace DAL.Repositories
             return AddHashTagToProfileAccount(hashTag.Id, profileId);
         }
 
-        public bool AddProfileHashtagById(int profileId, int HashTagid)
+        public bool AddProfileHashtagById(Guid profileId, Guid HashTagid)
         {
             var profile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             if (profile == null) return false;
@@ -223,7 +223,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool RemoveHashTagByNameFromUserProfile(string hashTagName, int userProfileId)
+        public bool RemoveHashTagByNameFromUserProfile(string hashTagName, Guid userProfileId)
         {
             var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == userProfileId);
             var accHashtag = _context.UserProfileHashTags.FirstOrDefault(x => x.HashTag.HashTagName == hashTagName && x.UserProfileId == userProfileId);
@@ -247,7 +247,7 @@ namespace DAL.Repositories
         #endregion HashTag
 
         #region Group
-        public bool AddUserGroupByIdToProfile(int profileId, int groupId)
+        public bool AddUserGroupByIdToProfile(Guid profileId, Guid groupId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == profileId);
             if (profileFromDb == null) return false;
@@ -269,10 +269,10 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public IEnumerable<int> GetUserGroupsIdListByProfileId(int profileId)
+        public IEnumerable<Guid> GetUserGroupsIdListByProfileId(Guid profileId)
         {
             var groupProfiles = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId).GroupProfiles;
-            List<int> groupIdsList = new List<int>();
+            List<Guid> groupIdsList = new List<Guid>();
             foreach (var group in groupProfiles)
             {
                 groupIdsList.Add(group.GroupProfileId);
@@ -288,7 +288,7 @@ namespace DAL.Repositories
             return user == null ? true : false;
         }
 
-        public bool UpdateUsername(int profileId, string newUsername)
+        public bool UpdateUsername(Guid profileId, string newUsername)
         {
             var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == profileId);
             if (profile == null) return false;

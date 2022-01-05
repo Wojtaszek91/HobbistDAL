@@ -11,16 +11,16 @@ namespace DAL.Repositories.IRepositories
     {
         AuthenticateResponse AuthenticateUser(LoginDetails loginDetails);
         bool ChangeEmail(LoginDetails loginDetails, string newEmail);
-        string GetUserEmial(int id);
-        string GetUserRole(int id);
+        string GetUserEmial(Guid id);
+        string GetUserRole(Guid id);
         bool IsUserEmailAvailable(string email);
         UserAccount RegisterUser(UserAccount userAccount);
         bool RemoveUser(LoginDetails loginDetails);
         bool UpdateUserDateOfBirth(LoginDetails loginDetails, DateTime dateOfBirth);
-        bool AddProfileToAccount(UserProfile userProfile, int userAccountId);
-        bool IsUserBlocked(int id);
-        UserAccount GetUserById(int id);
-        DateTime GetUserDateOfBirth(int id);
+        bool AddProfileToAccount(UserProfile userProfile, Guid userAccountId);
+        bool IsUserBlocked(Guid id);
+        UserAccount GetUserById(Guid id);
+        DateTime GetUserDateOfBirth(Guid id);
         bool BlockOrUnblockUser(string userName, bool isBlocked);
         public bool Save();
 

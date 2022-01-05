@@ -12,7 +12,7 @@ namespace Models.Models
     public class Post
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public HashTag ChainedTag { get; set; }
         [Required]
         [MinLength(20)]
@@ -28,19 +28,19 @@ namespace Models.Models
         [Required]
         public DateTime BeginDate { get; set; }
         [Required]
-        public int UserProfileId { get; set; }
+        public Guid UserProfileId { get; set; }
       
         [ForeignKey("UserProfileId")]
         public virtual UserProfile UserProfile { get; set; }
 
         [NotMapped]
-        public List<int> FollowersList { get; set; } = new List<int>();
+        public List<Guid> FollowersList { get; set; } = new List<Guid>();
         [Obsolete("Only for Persistence by EntityFramework")]
         public string Followers
         {
             get { return FollowersList == null || !FollowersList.Any() ? null : JsonConvert.SerializeObject(FollowersList); }
 
-            set { if (string.IsNullOrWhiteSpace(value)) FollowersList.Clear(); else FollowersList = JsonConvert.DeserializeObject<List<int>>(value);}
+            set { if (string.IsNullOrWhiteSpace(value)) FollowersList.Clear(); else FollowersList = JsonConvert.DeserializeObject<List<Guid>>(value);}
         }
     }
 }

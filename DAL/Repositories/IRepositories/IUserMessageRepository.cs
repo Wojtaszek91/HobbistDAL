@@ -10,6 +10,6 @@ namespace DAL.Repositories.IRepositories
     public interface IUserMessageRepository
     {
         bool SaveMessage(UserMessage userMessage);
-        IEnumerable<UserMessage> GetUserMessages(int userProfileId, int index);
+        IEnumerable<UserMessage> GetUserMessages(Guid userProfileId, int index);
     }
 }

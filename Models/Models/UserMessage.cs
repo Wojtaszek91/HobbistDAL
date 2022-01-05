@@ -9,8 +9,8 @@ namespace Models.Models
     public class UserMessage
     {
         public Guid Id { get; set; }
-        public int SenderProfileId { get; set; }
-        public int TargetProfileId { get; set; }
+        public Guid SenderProfileId { get; set; }
+        public Guid TargetProfileId { get; set; }
         public string Content { get; set; }
         public DateTime SendTime { get; set; }
         public DateTime? RecivedTime { get; set; }

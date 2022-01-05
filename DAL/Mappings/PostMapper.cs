@@ -30,7 +30,7 @@ namespace HobbistApi.Mappings
             };
         }
 
-        public static List<PostDto> MapCollectionPostToPostDto(IEnumerable<Post> postCollection, int requestingUserId)
+        public static List<PostDto> MapCollectionPostToPostDto(IEnumerable<Post> postCollection, Guid requestingUserId)
         {
             List<PostDto> postDtoCollection = new List<PostDto>();
             foreach (var post in postCollection)
@@ -55,7 +55,7 @@ namespace HobbistApi.Mappings
             return postDtoCollection;
         }
 
-        private static bool CheckIfPostIsfollowed(List<int> followers, int userId)
+        private static bool CheckIfPostIsfollowed(List<Guid> followers, Guid userId)
         {
             foreach(var follower in followers) { if (follower == userId) return true; }
             return false;

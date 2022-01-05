@@ -31,7 +31,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool DeleteGroupProfile(int id)
+        public bool DeleteGroupProfile(Guid id)
         {
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
@@ -46,7 +46,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool DoProfileExist(int id)
+        public bool DoProfileExist(Guid id)
         {
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
@@ -60,60 +60,60 @@ namespace DAL.Repositories
             }
         }
 
-        public IEnumerable<int> GetManagersIds(int id)
+        public IEnumerable<Guid> GetManagersIds(Guid id)
         {
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
             if (groupProfile != null)
             {
-                return (IEnumerable<int>)groupProfile.ManagersId;
+                return (IEnumerable<Guid>)groupProfile.ManagersId;
             }
             else
             {
-                return new List<int>();
+                return new List<Guid>();
             }
         }
 
-        public IEnumerable<int> GetMembersIds(int id)
+        public IEnumerable<Guid> GetMembersIds(Guid id)
         {
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
 
             if (groupProfile != null)
             {
-                return (IEnumerable<int>)groupProfile.MembersId;
+                return (IEnumerable<Guid>)groupProfile.MembersId;
             }
             else
             {
-                return new List<int>();
+                return new List<Guid>();
             }
         }
 
-        public GroupProfile GetProfileById(int id)
+        public GroupProfile GetProfileById(Guid id)
         {
             return _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
         }
 
-        public string GetProfileDescription(int id)
+        public string GetProfileDescription(Guid id)
         {
             return _context.GroupProfiles.FirstOrDefault(g => g.Id == id).Description;
         }
 
-        public string GetProfilePhoto(int id)
+        public string GetProfilePhoto(Guid id)
         {
             return _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ProfilePhoto;
         }
 
-        public int GetProfileViews(int id)
+        public int GetProfileViews(Guid id)
         {
             return _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ProfileViews;
         }
 
-        public string GetVideoLink(int id)
+        public string GetVideoLink(Guid id)
         {
             return _context.GroupProfiles.FirstOrDefault(g => g.Id == id).VideoLink;
         }
 
-        public bool IsManager(int id, int userId)
+        public bool IsManager(Guid id, Guid userId)
         {
             var managersList = _context.GroupProfiles.FirstOrDefault(g => g.Id == id).ManagersId;
 
@@ -127,7 +127,7 @@ namespace DAL.Repositories
             return false;
         }
 
-        public bool IsMember(int id, int userId)
+        public bool IsMember(Guid id, Guid userId)
         {
             var membersList = _context.GroupProfiles.FirstOrDefault(g => g.Id == id).MembersId;
 
@@ -141,7 +141,7 @@ namespace DAL.Repositories
             return false;
         }
 
-        public bool SignInFollower(int id, int profileId)
+        public bool SignInFollower(Guid id, Guid profileId)
         {
             var followerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
 
@@ -156,7 +156,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignInManager(int id, int profileId)
+        public bool SignInManager(Guid id, Guid profileId)
         {
             var managerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
@@ -181,7 +181,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignInMember(int id, int profileId)
+        public bool SignInMember(Guid id, Guid profileId)
         {
             var memberProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
@@ -206,7 +206,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutFollower(int id, int profileId)
+        public bool SignOutFollower(Guid id, Guid profileId)
         {
             var followerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
 
@@ -221,7 +221,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutManager(int id, int profileId)
+        public bool SignOutManager(Guid id, Guid profileId)
         {
             var managerProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);
@@ -246,7 +246,7 @@ namespace DAL.Repositories
             }
         }
 
-        public bool SignOutMember(int id, int profileId)
+        public bool SignOutMember(Guid id, Guid profileId)
         {
             var memberProfile = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId);
             var groupProfile = _context.GroupProfiles.FirstOrDefault(g => g.Id == id);

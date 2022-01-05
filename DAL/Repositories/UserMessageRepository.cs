@@ -17,7 +17,7 @@ namespace DAL.Repositories
         {
             this._context = context;
         }
-        public IEnumerable<UserMessage> GetUserMessages(int userProfileId, int index)
+        public IEnumerable<UserMessage> GetUserMessages(Guid userProfileId, int index)
         {
             throw new NotImplementedException();
         }

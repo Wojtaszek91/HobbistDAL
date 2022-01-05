@@ -50,14 +50,14 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool AddPopularity(int id)
+        public bool AddPopularity(Guid id)
         {
             var dbHash = _context.HashTags.FirstOrDefault(h => h.Id == id);
             dbHash.Popularity++;
             return Save();
         }
 
-        public bool DecreasePopuplarity(int id)
+        public bool DecreasePopuplarity(Guid id)
         {
             var dbHash = _context.HashTags.FirstOrDefault(h => h.Id == id);
             dbHash.Popularity--;
@@ -77,19 +77,19 @@ namespace DAL.Repositories
 
         public bool EditHashTagNoReturnType(HashTagDto hashtagDTO)
         {
-            if (EditHashTag(hashtagDTO) == null) return false;
+            if (EditHashTag(hashtagDTO)) return false;
 
             return Save();
         }
 
-        public bool DoesHashTagExists(int id)
+        public bool DoesHashTagExists(Guid id)
         {
             if (_context.HashTags.FirstOrDefault(h => h.Id == id) == null) return false;
 
             return true;
         }
 
-        public bool DeleteHashTag(int id)
+        public bool DeleteHashTag(Guid id)
         {
             var hashtag = _context.HashTags.FirstOrDefault(h => h.Id == id);
             if (hashtag == null) return false;
@@ -98,7 +98,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public HashTagDto GetHashTagById(int id)
+        public HashTagDto GetHashTagById(Guid id)
         {
             var tagFromDb = _context.HashTags.FirstOrDefault(h => h.Id == id);
             if (tagFromDb == null) return null;
@@ -116,7 +116,7 @@ namespace DAL.Repositories
             return _context.HashTags.FirstOrDefault(h => h.HashTagName == name);
         }
 
-        public int GetHashTagPopularity(int id)
+        public int GetHashTagPopularity(Guid id)
         {
             var dbHashTag = _context.HashTags.FirstOrDefault(h => h.Id == id);
             return dbHashTag.Popularity;
@@ -128,7 +128,7 @@ namespace DAL.Repositories
             return dbHashTag.Popularity;
         }
 
-        public bool RemoveHashTag(int id)
+        public bool RemoveHashTag(Guid id)
         {
             var dbHashTag = _context.HashTags.FirstOrDefault(h => h.Id == id);
             _context.HashTags.Remove(dbHashTag);

@@ -8,6 +8,6 @@ namespace Models.Models.DTOs
     public class AddProfilePhotoDto
     {
         public string PhotoBase64 { get; set; }
-        public int UserProfileId { get; set; }
+        public Guid UserProfileId { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace Models.Models.EntityFrameworkJoinEntities
 {
     public class UserProfileHashTag
     {
-        public int HashTagId { get; set; }
+        public Guid HashTagId { get; set; }
         public HashTag HashTag { get; set; }
-        public int UserProfileId { get; set; }
+        public Guid UserProfileId { get; set; }
         public UserProfile UserProfile { get; set; }
     }
 }

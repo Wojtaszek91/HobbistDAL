@@ -20,21 +20,21 @@ namespace DAL.Repositories
         }
 
         #region Add
-        public bool AddFollower(int postId, int followerId)
+        public bool AddFollower(Guid postId, Guid followerId)
         {
             var lol = _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList;
-            if (_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Count() == 0) { _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList = new List<int>() { followerId }; }
+            if (_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Count() == 0) { _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList = new List<Guid>() { followerId }; }
             else if (!_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Contains(followerId)) _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Add(followerId);
             return Save();
         }
         public bool AddPost(Post post)
         {
-            post.FollowersList = new List<int>();
+            post.FollowersList = new List<Guid>();
             post.IsBlocked = false;
             _context.Posts.Add(post);
             return Save();
         }
-        public bool AddPostView(int id)
+        public bool AddPostView(Guid id)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             if (post == null) return false;
@@ -44,12 +44,12 @@ namespace DAL.Repositories
         #endregion Add
 
         #region Remove
-        public bool RemoveFollower(int postId, int followerId)
+        public bool RemoveFollower(Guid postId, Guid followerId)
         {
             _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Remove(followerId);
             return Save();
         }
-        public bool DeletePost(int id)
+        public bool DeletePost(Guid id)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             if (post == null) return false;
@@ -59,14 +59,14 @@ namespace DAL.Repositories
         #endregion Remove
 
         #region Edit
-        public Post EditBeginDate(DateTime beginDate, int id)
+        public Post EditBeginDate(DateTime beginDate, Guid id)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             if (post != null) return new Post();
             post.BeginDate = beginDate;
             return Save() ? post : new Post();
         }
-        public Post EditDayLast(int dayLast, int id)
+        public Post EditDayLast(int dayLast, Guid id)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             if (post == null) return new Post();
@@ -87,7 +87,7 @@ namespace DAL.Repositories
 
             return Save();
         }
-        public bool EditPostHashTag(int id, HashTagDto hashTag)
+        public bool EditPostHashTag(Guid id, HashTagDto hashTag)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             var hashTagFromDb = _context.HashTags.FirstOrDefault(h => h.HashTagName == hashTag.HashTagName);
@@ -98,7 +98,7 @@ namespace DAL.Repositories
 
 
         }
-        public bool EditPostMessage(int id, string message)
+        public bool EditPostMessage(Guid id, string message)
         {
             var post = _context.Posts.FirstOrDefault(p => p.Id == id);
             if (post == null) return false;
@@ -108,31 +108,31 @@ namespace DAL.Repositories
         #endregion Edit
 
         #region Get
-        public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, int groupId, int index)
+        public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid groupId, int index)
         {
             var date = endDate - beginDate;
             return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days)
                 .Skip(10 * index).Take(10);
         }
 
-        public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, int hashTagId, int index)
+        public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid hashTagId, int index)
         {
             var date = endDate - beginDate;
             return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.ChainedTag.Id == hashTagId)
                 .Skip(10 * index).Take(10); ;
         }
 
-        public int GetPostAverageMark(int id)
+        public int GetPostAverageMark(Guid id)
         {
             return _context.Posts.FirstOrDefault(p => p.Id == id).AverageMark;
         }
 
-        public Post GetPostById(int id)
+        public Post GetPostById(Guid id)
         {
             return _context.Posts.Include(h => h.ChainedTag).FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Post> GetPostsByProfileId(int userProfile, int index)
+        public IEnumerable<Post> GetPostsByProfileId(Guid userProfile, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
                 .Where(p => p.UserProfileId == userProfile)
@@ -148,19 +148,19 @@ namespace DAL.Repositories
                 .Skip(10 * index).Take(10);
         }
 
-        public IEnumerable<Post> GetPostsByProfileIdAndHashTag(int profileId, string hashTagName, int index)
+        public IEnumerable<Post> GetPostsByProfileIdAndHashTag(Guid profileId, string hashTagName, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
                 .Where(p => p.UserProfileId == profileId && p.ChainedTag.HashTagName == hashTagName)
                 .Skip(10 * index).Take(10); ;
         }
 
-        public int GetPostViews(int id)
+        public int GetPostViews(Guid id)
         {
             return _context.Posts.FirstOrDefault(p => p.Id == id).PostViews;
         }
 
-        public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, int profileId, int index)
+        public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid profileId, int index)
         {
             var date = endDate - beginDate;
             return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.UserProfileId == profileId)
@@ -168,19 +168,19 @@ namespace DAL.Repositories
         }
         #endregion GET
 
-        public bool DoesPostExists(int postId)
+        public bool DoesPostExists(Guid postId)
         {
             return _context.Posts.FirstOrDefault(p => p.Id == postId) == null ? false : true;
         }
 
-        public bool BlockPost(int postId)
+        public bool BlockPost(Guid postId)
         {
             if (!DoesPostExists(postId)) return false;
             _context.Posts.FirstOrDefault(p => p.Id == postId).IsBlocked = true;
             return Save();
         }
 
-        public bool UnblockPost(int postId)
+        public bool UnblockPost(Guid postId)
         {
             if (!DoesPostExists(postId)) return false;
             _context.Posts.FirstOrDefault(p => p.Id == postId).IsBlocked = false;

@@ -73,8 +73,8 @@ namespace DAL.Repositories
             else return false; 
         }
 
-        public string GetUserEmial(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Email;
-        public string GetUserRole(int id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Role;
+        public string GetUserEmial(Guid id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Email;
+        public string GetUserRole(Guid id) => _context.UserAccounts.FirstOrDefault(u => u.Id == id).Role;
 
         public bool IsUserEmailAvailable(string email)
         {
@@ -147,7 +147,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool AddProfileToAccount(UserProfile userProfile, int userAccountId)
+        public bool AddProfileToAccount(UserProfile userProfile, Guid userAccountId)
         {
             var user = _context.UserAccounts.FirstOrDefault(u => u.Id == userAccountId);
             if (user != null)
@@ -162,17 +162,17 @@ namespace DAL.Repositories
             }
         }
 
-        public bool IsUserBlocked(int id)
+        public bool IsUserBlocked(Guid id)
         {
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id).isBlocked;
         }
 
-        public UserAccount GetUserById(int id)
+        public UserAccount GetUserById(Guid id)
         {
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id);
         }
 
-        public DateTime GetUserDateOfBirth(int id)
+        public DateTime GetUserDateOfBirth(Guid id)
         {
             return _context.UserAccounts.FirstOrDefault(u => u.Id == id).DateOfBirth;
         }

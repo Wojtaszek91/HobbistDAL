@@ -8,7 +8,7 @@ namespace Models.Models.EntityFrameworkJoinEntities.DTOs
 {
     public class PostDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string ChainedTagName { get; set; }
         public string PostMessage { get; set; }
         public decimal Lat { get; set; }
@@ -17,7 +17,7 @@ namespace Models.Models.EntityFrameworkJoinEntities.DTOs
         public int AverageMark { get; set; }
         public int DayLast { get; set; }
         public DateTime BeginDate { get; set; }
-        public int ProfileId { get; set; }
+        public Guid ProfileId { get; set; }
         public bool IsFollowed { get; set; }
         public bool IsBlocked { get; set; }
     }

@@ -12,6 +12,6 @@ namespace Models.Models.EntityFrameworkJoinEntities.DTOs
         public string VideoLink { get; set; }
         public string ProfilePhoto { get; set; }
         public int ProfileViews { get; set; }
-        public int UserAccountId { get; set; }
+        public Guid UserAccountId { get; set; }
     }
 }

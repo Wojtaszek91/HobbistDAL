@@ -9,28 +9,28 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IPostRepository
     {
-        public Post GetPostById(int id);
-        public IEnumerable<Post> GetPostsByProfileId(int profileId, int index);
-        public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, int userId, int index);
-        public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, int groupId, int index);
-        public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, int hashTagId, int index);
-        public IEnumerable<Post> GetPostsByProfileIdAndHashTag(int profileId, string hashTagName, int index);
+        public Post GetPostById(Guid id);
+        public IEnumerable<Post> GetPostsByProfileId(Guid profileId, int index);
+        public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid userId, int index);
+        public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid groupId, int index);
+        public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid hashTagId, int index);
+        public IEnumerable<Post> GetPostsByProfileIdAndHashTag(Guid profileId, string hashTagName, int index);
         public IEnumerable<Post> GetPostsByHashTag(string hashTag, int index);
-        public int GetPostAverageMark(int id);
-        public int GetPostViews(int id);
-        public bool AddPostView(int id);
-        public bool EditPostMessage(int id, string message);
-        public bool EditPostHashTag(int id, HashTagDto hashTag);
+        public int GetPostAverageMark(Guid id);
+        public int GetPostViews(Guid id);
+        public bool AddPostView(Guid id);
+        public bool EditPostMessage(Guid id, string message);
+        public bool EditPostHashTag(Guid id, HashTagDto hashTag);
         public bool AddPost(Post post);
-        public bool BlockPost(int postId);
-        public bool UnblockPost(int postId);
-        public bool DeletePost(int id);
+        public bool BlockPost(Guid postId);
+        public bool UnblockPost(Guid postId);
+        public bool DeletePost(Guid id);
         public bool EditPost(Post post);
-        public Post EditBeginDate(DateTime beginDate, int id);
-        public Post EditDayLast(int dayLast, int id);
-        public bool AddFollower(int postId, int followerId);
-        public bool RemoveFollower(int postId, int followerId);
-        public bool DoesPostExists(int postId);
+        public Post EditBeginDate(DateTime beginDate, Guid id);
+        public Post EditDayLast(int dayLast, Guid id);
+        public bool AddFollower(Guid postId, Guid followerId);
+        public bool RemoveFollower(Guid postId, Guid followerId);
+        public bool DoesPostExists(Guid postId);
         public bool Save();
     }
 }

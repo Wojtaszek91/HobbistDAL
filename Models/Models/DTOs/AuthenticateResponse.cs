@@ -8,7 +8,7 @@ namespace Models.Models.DTOs
     public class AuthenticateResponse
     {
         public string Emial { get; set; }
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
         public DateTime TokenExpirationDate { get; set; }

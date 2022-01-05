@@ -11,7 +11,7 @@ namespace Models.Models
     public class UserAccount
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [MinLength(8)]
         public string Email { get; set; }
@@ -27,7 +27,7 @@ namespace Models.Models
 
         public ICollection<Post> Posts { get; set; }
 
-        public int? UserProfileId { get; set; }
+        public Guid? UserProfileId { get; set; }
         [ForeignKey("UserProfileId")]
         public UserProfile UserProfile { get; set; }
 

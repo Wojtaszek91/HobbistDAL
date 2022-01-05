@@ -7,6 +7,6 @@ namespace Models.Models.DTOs
 {
     public class PostIdModel
     {
-        public int PostId { get; set; }
+        public Guid PostId { get; set; }
     }
 }
