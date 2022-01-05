@@ -11,7 +11,6 @@ namespace Models.Models
 {
     public class Post
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         public HashTag ChainedTag { get; set; }

@@ -21,11 +21,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.EntityFrameworkJoinEntities.GroupProfileManagers", b =>
                 {
-                    b.Property<int>("GroupProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GroupProfileId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("GroupProfileId", "UserProfileId");
 
@@ -36,11 +36,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.EntityFrameworkJoinEntities.GroupProfileUserProfile", b =>
                 {
-                    b.Property<int>("GroupProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GroupProfileId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("GroupProfileId", "ProfileId");
 
@@ -51,11 +51,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.EntityFrameworkJoinEntities.UserProfileHashTag", b =>
                 {
-                    b.Property<int>("HashTagId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("HashTagId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("HashTagId", "UserProfileId");
 
@@ -66,10 +66,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.HashTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HashTagName")
                         .IsRequired()
@@ -85,10 +84,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AverageMark")
                         .HasColumnType("int");
@@ -96,8 +94,8 @@ namespace DAL.Migrations
                     b.Property<DateTime>("BeginDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ChainedTagId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ChainedTagId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("DayLast")
                         .HasColumnType("int");
@@ -121,11 +119,11 @@ namespace DAL.Migrations
                     b.Property<int>("PostViews")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserAccountId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserAccountId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -140,10 +138,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.UserAccount", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -161,8 +158,8 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("isBlocked")
                         .HasColumnType("bit");
@@ -191,11 +188,11 @@ namespace DAL.Migrations
                     b.Property<DateTime>("SendTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SenderProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SenderProfileId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TargetProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TargetProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -204,10 +201,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Models.Models.UserProfile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -222,11 +218,11 @@ namespace DAL.Migrations
                     b.Property<int>("ProfileViews")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserAccountId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserAccountId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UserProfileId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");

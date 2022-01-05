@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AddModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,7 @@ namespace DAL.Migrations
                 name: "HashTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     HashTagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Popularity = table.Column<int>(type: "int", nullable: false)
                 },
@@ -22,12 +21,27 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SenderProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TargetProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SendTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RecivedTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMessages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChainedTagId = table.Column<int>(type: "int", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChainedTagId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PostMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsBlocked = table.Column<bool>(type: "bit", nullable: false),
                     Lat = table.Column<decimal>(type: "decimal(27,25)", nullable: false),
@@ -36,9 +50,9 @@ namespace DAL.Migrations
                     AverageMark = table.Column<int>(type: "int", nullable: false),
                     DayLast = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Followers = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserAccountId = table.Column<int>(type: "int", nullable: true)
+                    UserAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,8 +69,8 @@ namespace DAL.Migrations
                 name: "UserProfileHashTags",
                 columns: table => new
                 {
-                    HashTagId = table.Column<int>(type: "int", nullable: false),
-                    UserProfileId = table.Column<int>(type: "int", nullable: false)
+                    HashTagId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,16 +87,15 @@ namespace DAL.Migrations
                 name: "UserProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VideoLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfilePhoto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfileViews = table.Column<int>(type: "int", nullable: false),
-                    UserAccountId = table.Column<int>(type: "int", nullable: false),
+                    UserAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserProfileId = table.Column<int>(type: "int", nullable: true)
+                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,8 +112,8 @@ namespace DAL.Migrations
                 name: "GroupProfileManagers",
                 columns: table => new
                 {
-                    GroupProfileId = table.Column<int>(type: "int", nullable: false),
-                    UserProfileId = table.Column<int>(type: "int", nullable: false)
+                    GroupProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,8 +134,8 @@ namespace DAL.Migrations
                 name: "GroupProfileUserProfile",
                 columns: table => new
                 {
-                    GroupProfileId = table.Column<int>(type: "int", nullable: false),
-                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                    GroupProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,14 +156,13 @@ namespace DAL.Migrations
                 name: "UserAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isBlocked = table.Column<bool>(type: "bit", nullable: false),
-                    UserProfileId = table.Column<int>(type: "int", nullable: true)
+                    UserProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,9 +195,9 @@ namespace DAL.Migrations
                 column: "UserAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
+                name: "IX_Posts_UserProfileId",
                 table: "Posts",
-                column: "UserId");
+                column: "UserProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserAccounts_UserProfileId",
@@ -219,9 +231,9 @@ namespace DAL.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_UserProfiles_UserId",
+                name: "FK_Posts_UserProfiles_UserProfileId",
                 table: "Posts",
-                column: "UserId",
+                column: "UserProfileId",
                 principalTable: "UserProfiles",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -245,8 +257,8 @@ namespace DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_UserAccounts_UserProfiles_UserProfileId",
-                table: "UserAccounts");
+    name: "FK_UserAccounts_UserProfiles_UserProfileId",
+    table: "UserAccounts");
 
             migrationBuilder.DropTable(
                 name: "GroupProfileManagers");
@@ -256,6 +268,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "UserMessages");
 
             migrationBuilder.DropTable(
                 name: "UserProfileHashTags");

@@ -10,7 +10,6 @@ namespace Models.Models
 {
     public class UserAccount
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         [Required]

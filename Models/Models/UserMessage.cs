@@ -10,7 +10,6 @@ namespace Models.Models
 {
     public class UserMessage
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         public Guid SenderProfileId { get; set; }
