@@ -17,34 +17,33 @@ namespace DAL.Repositories
         {
             this._context = context;
         }
-        public IEnumerable<UserMessage> GetUserMessages(Guid userProfileId, int index)
+        public async Task<IEnumerable<UserMessage>> GetUserMessages(Guid userProfileId, int index)
         {
             return _context.UserMessages.
                 Where(x => x.TargetProfileId == userProfileId)
                 .OrderByDescending(x => x.SendTime)
                 .Skip(10 * index)
-                .Take(10);
+                .Take(10).ToList();
         }
 
-        public IEnumerable<UserMessage> GetNotOpenUserMessages(Guid userProfileId, int index)
+        public async Task<IEnumerable<UserMessage>> GetNotOpenUserMessages(Guid userProfileId)
         {
             return _context.UserMessages.
                 Where(x => x.TargetProfileId == userProfileId && x.HasBeenOpen == false)
                 .OrderByDescending(x => x.SendTime)
-                .Skip(10 * index)
-                .Take(10);
+                .ToList();
         }
 
-        public bool SaveMessage(UserMessage userMessage)
+        public Task<bool> SaveMessage(UserMessage userMessage)
         {
             _context.UserMessages.AddAsync(userMessage);
-            return SaveChanges();
+            return Task.FromResult(SaveChanges());
         }
 
-        public bool MarkAsReaded(Guid messageId)
+        public Task<bool> MarkAsReaded(Guid messageId)
         {
             _context.UserMessages.FirstOrDefault(x => x.Id == messageId).HasBeenOpen = true;
-            return SaveChanges();
+            return Task.FromResult(SaveChanges());
         }
 
         private bool SaveChanges() 
