@@ -16,6 +16,6 @@ namespace Models.Models
         public Guid TargetProfileId { get; set; }
         public string Content { get; set; }
         public DateTime SendTime { get; set; }
-        public DateTime? RecivedTime { get; set; }
+        public bool HasBeenOpen { get; set; }
     }
 }
