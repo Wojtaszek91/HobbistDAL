@@ -17,5 +17,14 @@ namespace Models.Models
         public string Content { get; set; }
         public DateTime SendTime { get; set; }
         public bool HasBeenOpen { get; set; }
+
+        public UserMessage(Guid senderProfileId, Guid targetProfileId, string content)
+        {
+            SenderProfileId = senderProfileId;
+            TargetProfileId = targetProfileId;
+            Content = content;
+            SendTime = DateTime.Now;
+            HasBeenOpen = false;
+        }
     }
 }
