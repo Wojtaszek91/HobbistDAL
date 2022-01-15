@@ -3,6 +3,7 @@ using DAL.Repositories.IRepositories;
 using HobbistApi.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Models.Models.DTOs.Profile;
 using Models.Models.EntityFrameworkJoinEntities;
 using Models.Models.EntityFrameworkJoinEntities.DTOs;
 using System;
@@ -27,7 +28,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool UpdateProfile(UserProfileDto profileDto)
+        public bool UpdateProfile(UpsertProfileDto profileDto)
         {
             var profile = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == profileDto.UserAccountId);
             if (profile == null) return false;
@@ -71,7 +72,7 @@ namespace DAL.Repositories
             return profileFromDb;
         }
 
-        public UserProfileDto GetProfileByIdDto(Guid id)
+        public UpsertProfileDto GetProfileByIdDto(Guid id)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
             if (profileFromDb == null) return null;
@@ -79,7 +80,7 @@ namespace DAL.Repositories
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public UserProfileDto GetProfileByUserId(Guid userId)
+        public UpsertProfileDto GetProfileByUserId(Guid userId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId);
             if (profileFromDb == null) return null;

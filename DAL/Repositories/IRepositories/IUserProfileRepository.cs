@@ -1,4 +1,5 @@
 ﻿using Models.Models;
+using Models.Models.DTOs.Profile;
 using Models.Models.EntityFrameworkJoinEntities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ namespace DAL.Repositories.IRepositories
     public interface IUserProfileRepository
     {
         bool CreateProfile(UserProfile userProfile);
-        bool UpdateProfile(UserProfileDto profileDto);
+        bool UpdateProfile(UpsertProfileDto profileDto);
         bool UpdateProfilePhotoBase64(string photoBase64, Guid userId);
         bool DoesProfileExist(Guid userId);
         bool DeleteProfile(Guid id);
         UserProfile GetProfileById(Guid id);
-        UserProfileDto GetProfileByIdDto(Guid id);
-        UserProfileDto GetProfileByUserId(Guid userId);
+        UpsertProfileDto GetProfileByIdDto(Guid id);
+        UpsertProfileDto GetProfileByUserId(Guid userId);
         bool AddProfileView(Guid id);
         string GetProfileDescription(Guid id);
         string GetProfilePhoto(Guid id);
