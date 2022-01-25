@@ -28,7 +28,7 @@ namespace DAL.Repositories.IRepositories
         bool SignOutFollower(Guid id, Guid followerProfileId);
         IEnumerable<HashTag> GetUserHashTags(Guid profileId);
         IEnumerable<string> GetProfileHashTagsNames(Guid profileId);
-        bool AddHashTagToProfileAccount(Guid hashTagId, Guid profileId);
+        bool AddHashTagToProfile(Guid hashTagId, Guid profileId);
         bool AddHashTagByNameToUserProfile(string hashTagName, Guid profileId);
         bool AddProfileHashtagById(Guid profileId, Guid HashTagid);
         bool RemoveHashTagByNameFromUserProfile(string hashTagName, Guid userProfileId);
@@ -36,6 +36,7 @@ namespace DAL.Repositories.IRepositories
         IEnumerable<Guid> GetUserGroupsIdListByProfileId(Guid profileId);
         bool IsUserNameAvailable(string username);
         bool UpdateUsername(Guid profileId, string newUsername);
+        bool UpdateProfileHashtagsByList(Guid profileId, List<string> hashtagList);
         public bool Save();
     }
 }

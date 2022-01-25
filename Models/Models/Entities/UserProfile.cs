@@ -18,7 +18,7 @@ namespace Models.Models
         public string ProfilePhoto { get; set; }
         public int ProfileViews { get; set; }    
         public ICollection<Post> Posts { get; set; }
-        public ICollection<UserProfileHashTag> UserProfileHashTags { get; set; }
+        public ICollection<HashTag> HashTags { get; set; }
         public ICollection<GroupProfileUserProfile> GroupProfiles { get; set; }
         public ICollection<GroupProfileManagers> GroupManagers { get; set; }
         public Guid UserAccountId { get; set; }
