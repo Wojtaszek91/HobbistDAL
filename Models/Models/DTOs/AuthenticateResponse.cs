@@ -12,5 +12,6 @@ namespace Models.Models.DTOs
         public string Role { get; set; }
         public string Token { get; set; }
         public DateTime TokenExpirationDate { get; set; }
+        public Guid ProfileId { get; set; }
     }
 }
