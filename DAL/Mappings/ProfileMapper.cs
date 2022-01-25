@@ -1,4 +1,5 @@
 ﻿using Models.Models;
+using Models.Models.DTOs.Profile;
 using Models.Models.EntityFrameworkJoinEntities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,19 @@ namespace HobbistApi.Mappings
 {
     public static class ProfileMapper
     {
-        public static UserProfileDto MapProfileToProfileDto(UserProfile profile)
+        public static UpsertProfileDto MapProfileToProfileDto(UserProfile profile)
         {
-            return new UserProfileDto()
-            {
+            return new UpsertProfileDto()
+            { 
                 Username = profile.Username,
                 Description = profile.Description,
                 VideoLink = profile.VideoLink,
                 ProfilePhoto = profile.ProfilePhoto,
-                ProfileViews = profile.ProfileViews,
                 UserAccountId = profile.UserAccountId
             };
         }
 
-        public static UserProfile MapProfileDtoToProfile(UserProfileDto profileDto)
+        public static UserProfile MapProfileDtoToProfile(UpsertProfileDto profileDto)
         {
         return new UserProfile()
         {
@@ -30,7 +30,6 @@ namespace HobbistApi.Mappings
                 Description = profileDto.Description,
                 VideoLink = profileDto.VideoLink,
                 ProfilePhoto = profileDto.ProfilePhoto,
-                ProfileViews = profileDto.ProfileViews,
                 UserAccountId = profileDto.UserAccountId
             };
         }
