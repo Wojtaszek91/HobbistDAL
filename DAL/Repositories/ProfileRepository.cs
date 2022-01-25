@@ -51,7 +51,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool DoesProfileExist(Guid userId) => _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId) == null ? false : true;
+        public bool DoesProfileExist(Guid profileId) => _context.UserProfiles.FirstOrDefault(p => p.Id == profileId) == null ? false : true;
 
         public bool DeleteProfile(Guid id)
         {
