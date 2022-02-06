@@ -12,6 +12,6 @@ namespace Models.Models.DTOs.Profile
         public string Description { get; set; }
         public string VideoLink { get; set; }
         public string ProfilePhoto { get; set; }
-        public Guid UserAccountId { get; set; }
+        public Guid ProfileId { get; set; }
     }
 }

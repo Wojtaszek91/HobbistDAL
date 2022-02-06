@@ -30,6 +30,20 @@ namespace HobbistApi.Mappings
             };
         }
 
+        public static PostDto MapPostToPostDto(Post post)
+        {
+            return new PostDto()
+            {
+                ChainedTagName = post.ChainedTag.HashTagName,
+                PostMessage = post.PostMessage,
+                PostViews = post.PostViews,
+                AverageMark = post.AverageMark,
+                DayLast = post.DayLast,
+                BeginDate = post.BeginDate,
+                ProfileId = post.UserProfileId
+            };
+        }
+
         public static List<PostDto> MapCollectionPostToPostDto(IEnumerable<Post> postCollection, Guid requestingUserId)
         {
             List<PostDto> postDtoCollection = new List<PostDto>();

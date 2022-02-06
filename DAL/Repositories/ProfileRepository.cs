@@ -30,7 +30,7 @@ namespace DAL.Repositories
 
         public bool UpdateProfile(UpsertProfileDto profileDto)
         {
-            var profile = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == profileDto.UserAccountId);
+            var profile = _context.UserProfiles.FirstOrDefault(p => p.Id == profileDto.ProfileId);
             if (profile == null) return false;
 
             if (!string.IsNullOrEmpty(profileDto.Username) && profile.Username != profileDto.Username) profile.Username = profileDto.Username;
@@ -183,45 +183,43 @@ namespace DAL.Repositories
 
         public bool UpdateProfileHashtagsByList(Guid profileId, List<string> hashtagNameList)
         {
-            var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == profileId);
-            var userHashtagsDb = profile.HashTags.ToList();
-
-            RemoveHashTagsByList(hashtagNameList, userHashtagsDb, profile);
-            AddHashtagsByList(hashtagNameList, profile);
-
-            return Save();
-        }
-
-        private void AddHashtagsByList(List<string> hashtagNameList, UserProfile profile)
-        {
-            for (int i = 0; i < hashtagNameList.Count(); i++)
+            try
             {
-                var hashtag = GetHashTagByName(hashtagNameList[i]);
-                profile.HashTags.Add(hashtag);
-                hashtag.UserProfiles.Add(profile);
-            }
-        }
+                var profile = _context.UserProfiles.Where(x => x.Id == profileId).Include("HashTags").FirstOrDefault();
 
-        private void RemoveHashTagsByList(List<string> hashtagNameList, List<HashTag> userHashtagsDb, UserProfile profile)
-        {
-
-            for (int i = 0; i < userHashtagsDb.Count(); i++)
-            {
-                if (!hashtagNameList.Contains(userHashtagsDb[i].HashTagName))
+                for (int i = 0; i < profile.HashTags.Count(); i++)
                 {
-                    hashtagNameList.Remove(userHashtagsDb[i].HashTagName);
-
-                    _context.HashTags.FirstOrDefault(x => x.HashTagName == userHashtagsDb[i].HashTagName)
-                        .UserProfiles.Remove(profile);
-
-                    userHashtagsDb.Remove(userHashtagsDb[i]);
-                    i--;
+                    if (!hashtagNameList.Contains(profile.HashTags.ToList()[i].HashTagName))
+                    {
+                        profile.HashTags.Remove(profile.HashTags.ToList()[i]);
+                        i--;
+                    }
                 }
+
+                foreach (var name in hashtagNameList)
+                {
+                    var hashtag = _context.HashTags.FirstOrDefault(x => x.HashTagName == name);
+                    if (!profile.HashTags.Contains(hashtag))
+                    {
+                        profile.HashTags.Add(hashtag);
+                    }
+                }
+
+                _context.SaveChanges();
+
+                return true;
             }
+            catch(Exception e)
+            {
+                return false;
+            }
+
         }
 
         public HashTag GetHashTagByName(string name)
-            => _context.HashTags.FirstOrDefault(x => x.HashTagName == name);
+        {
+            return _context.HashTags.AsQueryable().Where(x => x.HashTagName == name).Include("UserProfiles").FirstOrDefault();        
+        }
 
         public bool AddHashTagByNameToUserProfile(string hashTagName, Guid profileId)
         {

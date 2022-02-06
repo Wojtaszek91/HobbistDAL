@@ -28,6 +28,14 @@ namespace DAL.Repositories
             return hashtagDtoList;
         }
 
+        public List<string> GetAllHashtagNames()
+        {
+            List<string> hashtagDtoList = new List<string>();
+            _context.HashTags.ToList().ForEach(x => hashtagDtoList.Add(x.HashTagName));
+
+            return hashtagDtoList;
+        }
+
         public List<HashTag> GetAllHashtags()
         {
             List<HashTag> hashTagList = new List<HashTag>();

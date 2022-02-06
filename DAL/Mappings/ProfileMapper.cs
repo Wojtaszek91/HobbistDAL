@@ -18,7 +18,7 @@ namespace HobbistApi.Mappings
                 Description = profile.Description,
                 VideoLink = profile.VideoLink,
                 ProfilePhoto = profile.ProfilePhoto,
-                UserAccountId = profile.UserAccountId
+                ProfileId = profile.UserAccountId
             };
         }
 
@@ -30,7 +30,7 @@ namespace HobbistApi.Mappings
                 Description = profileDto.Description,
                 VideoLink = profileDto.VideoLink,
                 ProfilePhoto = profileDto.ProfilePhoto,
-                UserAccountId = profileDto.UserAccountId
+                UserAccountId = profileDto.ProfileId
             };
         }
     }

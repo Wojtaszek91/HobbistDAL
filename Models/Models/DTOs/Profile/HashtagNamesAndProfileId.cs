@@ -8,7 +8,7 @@ namespace Models.Models.DTOs.Profile
 {
     public class HashtagNamesAndProfileId
     {
-        public List<string> HashtagNamesList { get; set; }
+        public List<string> HashtagNames { get; set; }
         public Guid ProfileId { get; set; }
     }
 }
