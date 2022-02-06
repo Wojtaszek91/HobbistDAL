@@ -57,7 +57,8 @@ namespace DAL.Repositories
                 AccountId = user.Id,
                 Role = user.Role,
                 Token = user.Token,
-                TokenExpirationDate = expiresIn
+                TokenExpirationDate = expiresIn,
+                ProfileId = (Guid)user.UserProfileId
             };
 
         }
