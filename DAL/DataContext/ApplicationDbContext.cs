@@ -73,7 +73,7 @@ namespace DAL.DataContext
             modelBuilder.Entity<GroupProfileManagers>()
                 .HasOne(gpua => gpua.GroupProfile)
                 .WithMany(gp => gp.ManagersId)
-                .HasForeignKey(gpua => gpua.GroupProfileId).OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(gpua => gpua.GroupProfileId).OnDelete(DeleteBehavior.);
 
             modelBuilder.Entity<GroupProfileManagers>()
                 .HasOne(gpua => gpua.UserProfile)
