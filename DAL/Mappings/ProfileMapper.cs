@@ -13,13 +13,25 @@ namespace HobbistApi.Mappings
         public static UpsertProfileDto MapProfileToProfileDto(UserProfile profile)
         {
             return new UpsertProfileDto()
-            { 
+            {
                 Username = profile.Username,
                 Description = profile.Description,
                 VideoLink = profile.VideoLink,
                 ProfilePhoto = profile.ProfilePhoto,
-                ProfileId = profile.UserAccountId
+                ProfileId = profile.UserAccountId,
+                HashtagNames = GetHashtagStringList(profile.HashTags.ToList())
             };
+        }
+
+        public static List<string> GetHashtagStringList(List<HashTag> hashtagList)
+        {
+            List<string> hashNamesList = new List<string>();
+            foreach(var hashTag in hashtagList)
+            {
+                hashNamesList.Add(hashTag.HashTagName);
+            }
+
+            return hashNamesList;
         }
 
         public static UserProfile MapProfileDtoToProfile(UpsertProfileDto profileDto)

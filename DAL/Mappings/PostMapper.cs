@@ -20,7 +20,6 @@ namespace HobbistApi.Mappings
                 Lat = postDto.Lat,
                 Lng = postDto.Lng,
                 PostViews = postDto.PostViews,
-                AverageMark = postDto.AverageMark,
                 BeginDate = postDto.BeginDate,
                 DayLast = postDto.DayLast,
                 UserProfileId = postDto.ProfileId,
@@ -30,43 +29,19 @@ namespace HobbistApi.Mappings
             };
         }
 
-        public static PostDto MapPostToPostDto(Post post)
+        public static PostDto MapPostToPostDto(Post post, int averageMark, Guid requestingUserId)
         {
             return new PostDto()
             {
                 ChainedTagName = post.ChainedTag.HashTagName,
                 PostMessage = post.PostMessage,
                 PostViews = post.PostViews,
-                AverageMark = post.AverageMark,
+                AverageMark = averageMark,
                 DayLast = post.DayLast,
                 BeginDate = post.BeginDate,
-                ProfileId = post.UserProfileId
+                ProfileId = post.UserProfileId,
+                IsFollowed = CheckIfPostIsfollowed(post.FollowersList, requestingUserId)
             };
-        }
-
-        public static List<PostDto> MapCollectionPostToPostDto(IEnumerable<Post> postCollection, Guid requestingUserId)
-        {
-            List<PostDto> postDtoCollection = new List<PostDto>();
-            foreach (var post in postCollection)
-            {
-                PostDto postDto = new PostDto()
-                {
-                    Id = post.Id,
-                    ChainedTagName = post.ChainedTag.HashTagName,
-                    PostMessage = post.PostMessage,
-                    Lat = post.Lat,
-                    Lng = post.Lng,
-                    PostViews = post.PostViews,
-                    AverageMark = post.AverageMark,
-                    DayLast = post.DayLast,
-                    BeginDate = post.BeginDate,
-                    ProfileId = post.UserProfileId,
-                    IsFollowed = CheckIfPostIsfollowed(post.FollowersList, requestingUserId),
-                    IsBlocked = post.IsBlocked
-                };
-                postDtoCollection.Add(postDto);
-            }
-            return postDtoCollection;
         }
 
         private static bool CheckIfPostIsfollowed(List<Guid> followers, Guid userId)

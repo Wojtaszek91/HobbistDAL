@@ -74,7 +74,7 @@ namespace DAL.Repositories
 
         public UpsertProfileDto GetProfileByIdDto(Guid id)
         {
-            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
+            var profileFromDb = _context.UserProfiles.Where(p => p.Id == id).Include("HashTags").FirstOrDefault();
             if (profileFromDb == null) return null;
 
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);

@@ -34,7 +34,6 @@ namespace DAL.Repositories
         {
             post.FollowersList = new List<Guid>();
             post.IsBlocked = false;
-            post.AverageMark = 0;
             post.PostViews = 0;
             _context.Posts.Add(post);
             return Save();
@@ -127,11 +126,6 @@ namespace DAL.Repositories
             && p.DayLast <= date.Days 
             && p.ChainedTag.Id == hashTagId)
                 .Skip(10 * index).Take(10); ;
-        }
-
-        public int GetPostAverageMark(Guid id)
-        {
-            return _context.Posts.FirstOrDefault(p => p.Id == id).AverageMark;
         }
 
         public Post GetPostById(Guid id)

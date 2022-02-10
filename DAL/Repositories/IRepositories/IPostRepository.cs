@@ -16,7 +16,6 @@ namespace DAL.Repositories.IRepositories
         public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid hashTagId, int index);
         public IEnumerable<Post> GetPostsByProfileIdAndHashTag(Guid profileId, string hashTagName, int index);
         public IEnumerable<Post> GetPostsByHashTag(string hashTag, int index);
-        public int GetPostAverageMark(Guid id);
         public int GetPostViews(Guid id);
         public bool AddPostView(Guid id);
         public bool EditPostMessage(Guid id, string message);

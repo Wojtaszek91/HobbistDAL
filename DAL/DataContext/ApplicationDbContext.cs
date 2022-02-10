@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models.Models.Entities;
 
 namespace DAL.DataContext
 {
@@ -21,6 +22,7 @@ namespace DAL.DataContext
         public DbSet<HashTag> HashTags { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<PostMark> PostMark { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,7 +75,7 @@ namespace DAL.DataContext
             modelBuilder.Entity<GroupProfileManagers>()
                 .HasOne(gpua => gpua.GroupProfile)
                 .WithMany(gp => gp.ManagersId)
-                .HasForeignKey(gpua => gpua.GroupProfileId).OnDelete(DeleteBehavior.);
+                .HasForeignKey(gpua => gpua.GroupProfileId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<GroupProfileManagers>()
                 .HasOne(gpua => gpua.UserProfile)
@@ -81,6 +83,24 @@ namespace DAL.DataContext
                 .HasForeignKey(gpua => gpua.UserProfileId).OnDelete(DeleteBehavior.NoAction);
 
             #endregion GroupProfileManagersAccounts
+
+            #region PostMark
+
+            modelBuilder.Entity<PostMark>().HasKey(k => new { k.PostId, k.UserProfileId });
+
+            modelBuilder.Entity<PostMark>()
+                .HasOne(k => k.UserProfile)
+                .WithMany(k => k.PostMarks)
+                .HasForeignKey(k => k.UserProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PostMark>()
+                .HasOne(k => k.Post)
+                .WithMany(k => k.PostMarks)
+                .HasForeignKey(k => k.PostId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            #endregion PostMark
         }
     }
 

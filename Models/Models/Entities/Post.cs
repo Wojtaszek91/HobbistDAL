@@ -1,4 +1,5 @@
-﻿using Models.Models.WorkFlowModels;
+﻿using Models.Models.Entities;
+using Models.Models.WorkFlowModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,12 @@ namespace Models.Models
         [Column(TypeName = "decimal(27,25)")]
         public decimal Lng { get; set; }
         public int PostViews { get; set; }
-        public int AverageMark { get; set; }
         public int DayLast { get; set; }
         [Required]
         public DateTime BeginDate { get; set; }
         [Required]
         public Guid UserProfileId { get; set; }
-      
+        public ICollection<PostMark> PostMarks { get; set; }
         [ForeignKey("UserProfileId")]
         public virtual UserProfile UserProfile { get; set; }
 

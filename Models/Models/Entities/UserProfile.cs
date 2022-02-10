@@ -1,4 +1,5 @@
-﻿using Models.Models.EntityFrameworkJoinEntities;
+﻿using Models.Models.Entities;
+using Models.Models.EntityFrameworkJoinEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,5 +26,6 @@ namespace Models.Models
         [ForeignKey("UserAccountId")]
         public virtual UserAccount UserAccount { get; set; }
         public ICollection<UserProfile> FollowersId { get; set; }
+        public ICollection<PostMark> PostMarks { get; set; }
     }
 }

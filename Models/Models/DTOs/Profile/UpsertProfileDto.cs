@@ -13,5 +13,6 @@ namespace Models.Models.DTOs.Profile
         public string VideoLink { get; set; }
         public string ProfilePhoto { get; set; }
         public Guid ProfileId { get; set; }
+        public List<string> HashtagNames { get; set; }
     }
 }
