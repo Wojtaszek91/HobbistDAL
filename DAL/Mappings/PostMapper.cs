@@ -33,6 +33,7 @@ namespace HobbistApi.Mappings
         {
             return new PostDto()
             {
+                Id = post.Id,
                 ChainedTagName = post.ChainedTag.HashTagName,
                 PostMessage = post.PostMessage,
                 PostViews = post.PostViews,
@@ -40,6 +41,9 @@ namespace HobbistApi.Mappings
                 DayLast = post.DayLast,
                 BeginDate = post.BeginDate,
                 ProfileId = post.UserProfileId,
+                IsBlocked = post.IsBlocked,
+                Lat = post.Lat,
+                Lng = post.Lng,
                 IsFollowed = CheckIfPostIsfollowed(post.FollowersList, requestingUserId)
             };
         }

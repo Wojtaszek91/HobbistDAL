@@ -115,8 +115,15 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetGroupPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid groupId, int index)
         {
             var date = endDate - beginDate;
-            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days)
+            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && !p.IsBlocked)
+                .Include(x => x.ChainedTag)
+                .OrderByDescending(p => p.BeginDate)
                 .Skip(10 * index).Take(10);
+        }
+
+        public IEnumerable<Post> GetBlockedPostList()
+        {
+            return _context.Posts.Where(p => p.IsBlocked).Include(x => x.ChainedTag).OrderByDescending(p => p.BeginDate);
         }
 
         public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid hashTagId, int index)
@@ -124,8 +131,12 @@ namespace DAL.Repositories
             var date = endDate - beginDate;
             return _context.Posts.Where(p => p.BeginDate >= beginDate 
             && p.DayLast <= date.Days 
-            && p.ChainedTag.Id == hashTagId)
-                .Skip(10 * index).Take(10); ;
+            && p.ChainedTag.Id == hashTagId
+            && !p.IsBlocked)
+                .Include(x => x.ChainedTag)
+                .OrderByDescending(x => x.BeginDate)
+                .Skip(10 * index)
+                .Take(10); ;
         }
 
         public Post GetPostById(Guid id)
@@ -136,24 +147,34 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetPostsByProfileId(Guid userProfile, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.UserProfileId == userProfile)
-                .OrderBy(p => p.BeginDate)
+                .Where(p => p.UserProfileId == userProfile 
+                && !p.IsBlocked)
+                .Include(x => x.ChainedTag)
+                .OrderByDescending(p => p.BeginDate)
                 .Skip(10 * index).Take(10);
         }
 
         public IEnumerable<Post> GetPostsByHashTag(string hashTag, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.ChainedTag.HashTagName.ToUpper() == hashTag.ToUpper())
-                .OrderBy(p => p.BeginDate)
-                .Skip(10 * index).Take(10);
+                .Where(p => p.ChainedTag.HashTagName.ToUpper() == hashTag.ToUpper()
+                && !p.IsBlocked)
+                .Include(x => x.ChainedTag)
+                .OrderByDescending(p => p.BeginDate)
+                .Skip(10 * index)
+                .Take(10);
         }
 
         public IEnumerable<Post> GetPostsByProfileIdAndHashTag(Guid profileId, string hashTagName, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.UserProfileId == profileId && p.ChainedTag.HashTagName.ToUpper() == hashTagName.ToUpper())
-                .Skip(10 * index).Take(10); ;
+                .Where(p => p.UserProfileId == profileId
+                && p.ChainedTag.HashTagName.ToUpper() == hashTagName.ToUpper()
+                && !p.IsBlocked)
+                .OrderByDescending(p => p.BeginDate)
+                .Include(x => x.ChainedTag)
+                .Skip(10 * index)
+                .Take(10); ;
         }
 
         public int GetPostViews(Guid id)
@@ -164,8 +185,13 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetUserPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid profileId, int index)
         {
             var date = endDate - beginDate;
-            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.UserProfileId == profileId)
-                .Skip(10 * index).Take(10); ;
+            return _context.Posts.Where(p => p.BeginDate >= beginDate
+            && p.DayLast <= date.Days 
+            && p.UserProfileId == profileId
+            && !p.IsBlocked)
+                .OrderByDescending(p => p.BeginDate)
+                .Skip(10 * index)
+                .Take(10); ;
         }
         #endregion GET
 
