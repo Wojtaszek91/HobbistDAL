@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models.Models.Entities;
 
 namespace DAL.DataContext
 {
@@ -19,9 +20,9 @@ namespace DAL.DataContext
         public DbSet<GroupProfile> GroupProfiles { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<HashTag> HashTags { get; set; }
-        public DbSet<UserProfileHashTag> UserProfileHashTags{ get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
+        public DbSet<PostMark> PostMark { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,18 +42,9 @@ namespace DAL.DataContext
 
             #region UserAccountHashTagManyToMany
 
-            modelBuilder.Entity<UserProfileHashTag>()
-                .HasKey(uaht => new { uaht.HashTagId, uaht.UserProfileId });
-
-            modelBuilder.Entity<UserProfileHashTag>()
-                .HasOne(uaht => uaht.HashTag)
-                .WithMany(h => h.UserAccountHashTags)
-                .HasForeignKey(uaht => uaht.HashTagId);
-
-            modelBuilder.Entity<UserProfileHashTag>()
-                .HasOne(uath => uath.UserProfile)
-                .WithMany(ua => ua.UserProfileHashTags)
-                .HasForeignKey(uath => uath.UserProfileId);
+            modelBuilder.Entity<UserProfile>()
+                .HasMany<HashTag>(s => s.HashTags)
+                .WithMany(x => x.UserProfiles);              
 
             #endregion UserAccountHashTagManyToMany
 
@@ -91,6 +83,24 @@ namespace DAL.DataContext
                 .HasForeignKey(gpua => gpua.UserProfileId).OnDelete(DeleteBehavior.NoAction);
 
             #endregion GroupProfileManagersAccounts
+
+            #region PostMark
+
+            modelBuilder.Entity<PostMark>().HasKey(k => new { k.PostId, k.UserProfileId });
+
+            modelBuilder.Entity<PostMark>()
+                .HasOne(k => k.UserProfile)
+                .WithMany(k => k.PostMarks)
+                .HasForeignKey(k => k.UserProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PostMark>()
+                .HasOne(k => k.Post)
+                .WithMany(k => k.PostMarks)
+                .HasForeignKey(k => k.PostId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            #endregion PostMark
         }
     }
 

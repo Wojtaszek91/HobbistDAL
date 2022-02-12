@@ -3,6 +3,7 @@ using DAL.Repositories.IRepositories;
 using HobbistApi.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Models.Models.DTOs.Profile;
 using Models.Models.EntityFrameworkJoinEntities;
 using Models.Models.EntityFrameworkJoinEntities.DTOs;
 using System;
@@ -27,9 +28,9 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool UpdateProfile(UserProfileDto profileDto)
+        public bool UpdateProfile(UpsertProfileDto profileDto)
         {
-            var profile = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == profileDto.UserAccountId);
+            var profile = _context.UserProfiles.FirstOrDefault(p => p.Id == profileDto.ProfileId);
             if (profile == null) return false;
 
             if (!string.IsNullOrEmpty(profileDto.Username) && profile.Username != profileDto.Username) profile.Username = profileDto.Username;
@@ -50,7 +51,7 @@ namespace DAL.Repositories
             return Save();
         }
 
-        public bool DoesProfileExist(Guid userId) => _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId) == null ? false : true;
+        public bool DoesProfileExist(Guid profileId) => _context.UserProfiles.FirstOrDefault(p => p.Id == profileId) == null ? false : true;
 
         public bool DeleteProfile(Guid id)
         {
@@ -71,15 +72,15 @@ namespace DAL.Repositories
             return profileFromDb;
         }
 
-        public UserProfileDto GetProfileByIdDto(Guid id)
+        public UpsertProfileDto GetProfileByIdDto(Guid id)
         {
-            var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.Id == id);
+            var profileFromDb = _context.UserProfiles.Where(p => p.Id == id).Include("HashTags").FirstOrDefault();
             if (profileFromDb == null) return null;
 
             return ProfileMapper.MapProfileToProfileDto(profileFromDb);
         }
 
-        public UserProfileDto GetProfileByUserId(Guid userId)
+        public UpsertProfileDto GetProfileByUserId(Guid userId)
         {
             var profileFromDb = _context.UserProfiles.FirstOrDefault(p => p.UserAccountId == userId);
             if (profileFromDb == null) return null;
@@ -149,49 +150,75 @@ namespace DAL.Repositories
         #endregion Followers
 
         #region HashTag
-        public IEnumerable<HashTag> GetUserHashTags(Guid profileId)
-        {
-            var hashTags = _context.UserProfiles.FirstOrDefault(u => u.Id == profileId).UserProfileHashTags;
-            List<HashTag> hashTagsList = new List<HashTag>();
-            foreach (var hashTag in hashTags)
-            {
-                hashTagsList.Add(hashTag.HashTag);
-            }
-            return hashTagsList;
-        }
+        public IEnumerable<HashTag> GetUserHashTags(Guid profileId) 
+            =>_context.UserProfiles.FirstOrDefault(u => u.Id == profileId).HashTags;
 
         public IEnumerable<string> GetProfileHashTagsNames(Guid profileId)
         {
             List<string> hashTagsList = new List<string>();
-            foreach (var hashTag in _context.UserProfileHashTags)
+
+            foreach(var hashTag in _context.UserProfiles.FirstOrDefault(x => x.Id == profileId).HashTags)
             {
-                if (hashTag.UserProfileId == profileId) hashTagsList.Add(_context.HashTags.FirstOrDefault(x => x.Id == hashTag.HashTagId).HashTagName);
+                hashTagsList.Add(hashTag.HashTagName);
             }
+
             return hashTagsList;
         }
 
-        public bool AddHashTagToProfileAccount(Guid hashTagId, Guid profileId)
+        public bool AddHashTagToProfile(Guid hashTagId, Guid profileId)
         {
             var hashTag = _context.HashTags.FirstOrDefault(x => x.Id == hashTagId);
             var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == profileId);
 
             if (profile == null || hashTag == null) return false;
 
-            var relation = new UserProfileHashTag() { UserProfile = profile, UserProfileId = profileId, HashTag = hashTag, HashTagId = hashTagId };
-
-            if (profile.UserProfileHashTags == null) profile.UserProfileHashTags = new List<UserProfileHashTag>() { relation };
-            else profile.UserProfileHashTags.Add(relation);
-
+            profile.HashTags.Add(hashTag);
             _context.UserProfiles.Update(profile);
 
-            if (hashTag.UserAccountHashTags == null) hashTag.UserAccountHashTags = new List<UserProfileHashTag>() { relation };
-            else hashTag.UserAccountHashTags.Add(relation);
-
+            hashTag.UserProfiles.Add(profile);
             _context.HashTags.Update(hashTag);
 
-            _context.UserProfileHashTags.Add(relation);
-
             return Save();
+        }
+
+        public bool UpdateProfileHashtagsByList(Guid profileId, List<string> hashtagNameList)
+        {
+            try
+            {
+                var profile = _context.UserProfiles.Where(x => x.Id == profileId).Include("HashTags").FirstOrDefault();
+
+                for (int i = 0; i < profile.HashTags.Count(); i++)
+                {
+                    if (!hashtagNameList.Contains(profile.HashTags.ToList()[i].HashTagName))
+                    {
+                        profile.HashTags.Remove(profile.HashTags.ToList()[i]);
+                        i--;
+                    }
+                }
+
+                foreach (var name in hashtagNameList)
+                {
+                    var hashtag = _context.HashTags.FirstOrDefault(x => x.HashTagName == name);
+                    if (!profile.HashTags.Contains(hashtag))
+                    {
+                        profile.HashTags.Add(hashtag);
+                    }
+                }
+
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+        }
+
+        public HashTag GetHashTagByName(string name)
+        {
+            return _context.HashTags.AsQueryable().Where(x => x.HashTagName == name).Include("UserProfiles").FirstOrDefault();        
         }
 
         public bool AddHashTagByNameToUserProfile(string hashTagName, Guid profileId)
@@ -199,7 +226,7 @@ namespace DAL.Repositories
             // add check if already isnt added !
             var hashTag = _context.HashTags.FirstOrDefault(x => x.HashTagName.ToUpper() == hashTagName.ToUpper());
             if (hashTag == null) return false;
-            return AddHashTagToProfileAccount(hashTag.Id, profileId);
+            return AddHashTagToProfile(hashTag.Id, profileId);
         }
 
         public bool AddProfileHashtagById(Guid profileId, Guid HashTagid)
@@ -209,35 +236,25 @@ namespace DAL.Repositories
 
             var hashTag = _context.HashTags.FirstOrDefault(h => h.Id == HashTagid);
             if (hashTag == null) return false;
-            {
-                UserProfileHashTag userHashTag = new UserProfileHashTag()
-                {
-                    UserProfile = profile,
-                    UserProfileId = profile.Id,
-                    HashTag = hashTag,
-                    HashTagId = hashTag.Id
-                };
-                profile.UserProfileHashTags.Add(userHashTag);
-                hashTag.UserAccountHashTags.Add(userHashTag);
-                return Save();
-            }
+
+            profile.HashTags.Add(hashTag);
+            hashTag.UserProfiles.Add(profile);
+
+            return Save();
         }
 
         public bool RemoveHashTagByNameFromUserProfile(string hashTagName, Guid userProfileId)
         {
             var profile = _context.UserProfiles.FirstOrDefault(x => x.Id == userProfileId);
-            var accHashtag = _context.UserProfileHashTags.FirstOrDefault(x => x.HashTag.HashTagName == hashTagName && x.UserProfileId == userProfileId);
             var hashtag = _context.HashTags.FirstOrDefault(x => x.HashTagName == hashTagName);
 
-            if (profile == null || accHashtag == null || hashtag == null) return false;
+            if (profile == null || hashtag == null) return false;
 
             try
             {
-                profile.UserProfileHashTags.Remove(accHashtag);
-                hashtag.UserAccountHashTags.Remove(accHashtag);
-                _context.UserProfileHashTags.Remove(accHashtag);
-
-                return Save();
+                profile.HashTags.Remove(hashtag);
+                hashtag.UserProfiles.Remove(profile);
+                return _context.SaveChanges() == 2 ? true : false;
             }
             catch (Exception e)
             {

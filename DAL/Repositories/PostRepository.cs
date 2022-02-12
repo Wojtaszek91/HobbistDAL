@@ -22,15 +22,19 @@ namespace DAL.Repositories
         #region Add
         public bool AddFollower(Guid postId, Guid followerId)
         {
-            var lol = _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList;
-            if (_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Count() == 0) { _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList = new List<Guid>() { followerId }; }
-            else if (!_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Contains(followerId)) _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Add(followerId);
+            if (_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Count() == 0)          
+                _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList = new List<Guid>() { followerId };
+            
+            else if (!_context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Contains(followerId))
+                _context.Posts.FirstOrDefault(p => p.Id == postId).FollowersList.Add(followerId);
+
             return Save();
         }
         public bool AddPost(Post post)
         {
             post.FollowersList = new List<Guid>();
             post.IsBlocked = false;
+            post.PostViews = 0;
             _context.Posts.Add(post);
             return Save();
         }
@@ -118,13 +122,10 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetHashTagPostsFromDateToDate(DateTime beginDate, DateTime endDate, Guid hashTagId, int index)
         {
             var date = endDate - beginDate;
-            return _context.Posts.Where(p => p.BeginDate >= beginDate && p.DayLast <= date.Days && p.ChainedTag.Id == hashTagId)
+            return _context.Posts.Where(p => p.BeginDate >= beginDate 
+            && p.DayLast <= date.Days 
+            && p.ChainedTag.Id == hashTagId)
                 .Skip(10 * index).Take(10); ;
-        }
-
-        public int GetPostAverageMark(Guid id)
-        {
-            return _context.Posts.FirstOrDefault(p => p.Id == id).AverageMark;
         }
 
         public Post GetPostById(Guid id)
@@ -143,7 +144,7 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetPostsByHashTag(string hashTag, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.ChainedTag.HashTagName == hashTag)
+                .Where(p => p.ChainedTag.HashTagName.ToUpper() == hashTag.ToUpper())
                 .OrderBy(p => p.BeginDate)
                 .Skip(10 * index).Take(10);
         }
@@ -151,7 +152,7 @@ namespace DAL.Repositories
         public IEnumerable<Post> GetPostsByProfileIdAndHashTag(Guid profileId, string hashTagName, int index)
         {
             return _context.Posts.Include(h => h.ChainedTag)
-                .Where(p => p.UserProfileId == profileId && p.ChainedTag.HashTagName == hashTagName)
+                .Where(p => p.UserProfileId == profileId && p.ChainedTag.HashTagName.ToUpper() == hashTagName.ToUpper())
                 .Skip(10 * index).Take(10); ;
         }
 

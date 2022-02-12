@@ -12,6 +12,7 @@ namespace DAL.Repositories.IRepositories
     {
         List<HashTag> GetAllHashtags();
         List<HashTagDto> GetAllHashtagsDto();
+        List<string> GetAllHashtagNames();
         IEnumerable<string> GetAllHashTagNames();
         HashTagDto GetHashTagById(Guid id);
         int GetHashTagPopularity(Guid id);

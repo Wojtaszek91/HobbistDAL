@@ -4,14 +4,16 @@ using DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220125183517_ChangeRelationProfileHashtag")]
+    partial class ChangeRelationProfileHashtag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,24 +34,6 @@ namespace DAL.Migrations
                     b.HasIndex("UserProfilesId");
 
                     b.ToTable("HashTagUserProfile");
-                });
-
-            modelBuilder.Entity("Models.Models.Entities.PostMark", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserProfileId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Mark")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId", "UserProfileId");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("PostMark");
                 });
 
             modelBuilder.Entity("Models.Models.EntityFrameworkJoinEntities.GroupProfileManagers", b =>
@@ -105,6 +89,9 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AverageMark")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("BeginDate")
                         .HasColumnType("datetime2");
@@ -279,25 +266,6 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Models.Models.Entities.PostMark", b =>
-                {
-                    b.HasOne("Models.Models.Post", "Post")
-                        .WithMany("PostMarks")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Models.Models.UserProfile", "UserProfile")
-                        .WithMany("PostMarks")
-                        .HasForeignKey("UserProfileId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("UserProfile");
-                });
-
             modelBuilder.Entity("Models.Models.EntityFrameworkJoinEntities.GroupProfileManagers", b =>
                 {
                     b.HasOne("Models.Models.GroupProfile", "GroupProfile")
@@ -382,11 +350,6 @@ namespace DAL.Migrations
                     b.Navigation("UserAccount");
                 });
 
-            modelBuilder.Entity("Models.Models.Post", b =>
-                {
-                    b.Navigation("PostMarks");
-                });
-
             modelBuilder.Entity("Models.Models.UserAccount", b =>
                 {
                     b.Navigation("Posts");
@@ -399,8 +362,6 @@ namespace DAL.Migrations
                     b.Navigation("GroupManagers");
 
                     b.Navigation("GroupProfiles");
-
-                    b.Navigation("PostMarks");
 
                     b.Navigation("Posts");
                 });

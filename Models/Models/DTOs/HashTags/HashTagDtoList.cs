@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Models.Models.EntityFrameworkJoinEntities.DTOs
 {
-    public class HashTagList
+    public class HashTagDtoList
     {
-        public List<HashTagDto> HashTagDtoList { get; set; }
+        public List<HashTagDto> HashTagList { get; set; }
     }
 }
