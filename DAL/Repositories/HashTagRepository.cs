@@ -47,6 +47,7 @@ namespace DAL.Repositories
         public bool AddHashTag(string h)
         {
             if (string.IsNullOrEmpty(h)) return false;
+            if (IsNameUsed(h)) return false;
 
             var newTag = new HashTag()
             {
@@ -86,16 +87,11 @@ namespace DAL.Repositories
         public bool EditHashTagNoReturnType(HashTagDto hashtagDTO)
         {
             if (EditHashTag(hashtagDTO)) return false;
-
             return Save();
         }
 
         public bool DoesHashTagExists(Guid id)
-        {
-            if (_context.HashTags.FirstOrDefault(h => h.Id == id) == null) return false;
-
-            return true;
-        }
+            => _context.HashTags.FirstOrDefault(h => h.Id == id) == null ? false : true;
 
         public bool DeleteHashTag(Guid id)
         {
@@ -147,5 +143,8 @@ namespace DAL.Repositories
         {
             return _context.SaveChanges() >= 0 ? true : false;
         }
+
+        private bool IsNameUsed(string name)
+            => _context.HashTags.FirstOrDefault(x => x.HashTagName.ToUpper() == name.ToUpper()) == null ? false : true;
     }
 }
