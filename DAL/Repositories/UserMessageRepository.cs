@@ -20,7 +20,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<UserMessage>> GetUserMessagesAtLogin(Guid userProfileId)
         {
             var messages = _context.UserMessages.
-                Where(x => x.SenderProfileId == userProfileId)
+                Where(x => x.TargetProfileId == userProfileId)
                 .OrderByDescending(x => x.SendTime);
 
             await MarkAsSend(messages);
