@@ -14,7 +14,7 @@ namespace Models.Models
         public Guid Id { get; set; }
         public Guid SenderProfileId { get; set; }
         public Guid TargetProfileId { get; set; }
-        public string SenderUserName { get; set; }
+        public string TargetUserName { get; set; }
         public string Content { get; set; }
         public DateTime SendTime { get; set; }
         public bool HasBeenOpen { get; set; }
@@ -24,7 +24,7 @@ namespace Models.Models
         {
             SenderProfileId = senderProfileId;
             TargetProfileId = targetProfileId;
-            SenderUserName = targetUserName;
+            TargetUserName = targetUserName;
             Content = content;
             SendTime = DateTime.Now;
             HasBeenOpen = false;

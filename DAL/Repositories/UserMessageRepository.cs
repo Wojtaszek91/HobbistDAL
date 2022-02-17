@@ -31,7 +31,7 @@ namespace DAL.Repositories
         public async Task<IEnumerable<UserMessage>> GetNotSendUserMessages(Guid userProfileId)
         {
             var messages = _context.UserMessages.
-                Where(x => x.SenderProfileId == userProfileId && x.HasBeenSend == false)
+                Where(x => x.TargetProfileId == userProfileId && x.HasBeenSend == false)
                 .OrderByDescending(x => x.SendTime);
 
             await MarkAsSend(messages);
