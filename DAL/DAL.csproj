@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Michal Wojtaszek</Authors>
+    <Company>Hobbist Assocation</Company>
+    <PackageId>Hobbist.Assocation.DAL</PackageId>
+    <Copyright>All copy rights reserved.</Copyright>
+    <PackageLicenseExpression>GNU LGPLv3</PackageLicenseExpression>
+    <PackageTags>HobbistAssocation; Hobbist</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
