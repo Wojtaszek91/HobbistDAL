@@ -42,6 +42,7 @@ namespace HobbistApi.Mappings
                 BeginDate = post.BeginDate,
                 ProfileId = post.UserProfileId,
                 IsBlocked = post.IsBlocked,
+
                 Lat = post.Lat,
                 Lng = post.Lng,
                 IsFollowed = CheckIfPostIsfollowed(post.FollowersList, requestingUserId)
