@@ -23,6 +23,7 @@ namespace DAL.DataContext
         public DbSet<Post> Posts { get; set; }
         public DbSet<UserMessage> UserMessages { get; set; }
         public DbSet<PostMark> PostMark { get; set; }
+        public DbSet<MessageBox> MessageBoxes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,13 +41,13 @@ namespace DAL.DataContext
 
             #endregion UserProfileUserAccountOneToOne
 
-            #region UserAccountHashTagManyToMany
+            #region UserProfileHashTagManyToMany
 
             modelBuilder.Entity<UserProfile>()
                 .HasMany<HashTag>(s => s.HashTags)
                 .WithMany(x => x.UserProfiles);              
 
-            #endregion UserAccountHashTagManyToMany
+            #endregion UserProfileHashTagManyToMany
 
             #region GroupProfileUserProfile
 

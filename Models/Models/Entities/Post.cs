@@ -27,9 +27,9 @@ namespace Models.Models
         public int DayLast { get; set; }
         [Required]
         public DateTime BeginDate { get; set; }
+        public ICollection<PostMark> PostMarks { get; set; }
         [Required]
         public Guid UserProfileId { get; set; }
-        public ICollection<PostMark> PostMarks { get; set; }
         [ForeignKey("UserProfileId")]
         public virtual UserProfile UserProfile { get; set; }
 

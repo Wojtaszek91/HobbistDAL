@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Hobbist.Association.Models</PackageId>
+    <Product>ModelsHolder</Product>
+    <Company>Hobbist Association</Company>
+    <Authors>Michal Wojtaszek</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>All rights reserved</Copyright>
+    <Version>1.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>

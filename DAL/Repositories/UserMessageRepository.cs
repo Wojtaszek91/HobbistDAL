@@ -1,6 +1,8 @@
 ﻿using DAL.DataContext;
 using DAL.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using Models.Models;
+using Models.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,59 +19,57 @@ namespace DAL.Repositories
         {
             this._context = context;
         }
-        public async Task<IEnumerable<UserMessage>> GetUserMessagesAtLogin(Guid userProfileId)
+
+        public Task<bool> SaveNewMessage(Guid messageBoxId, string content, Guid senderProfileId)
         {
-            var messages = _context.UserMessages.
-                Where(x => x.TargetProfileId == userProfileId)
-                .OrderByDescending(x => x.SendTime);
+            var sendername = _context.UserProfiles.FirstOrDefault(x => x.Id == senderProfileId).Username;
+            UserMessage newUserMessage = new UserMessage(content, sendername);
 
-            await MarkAsSend(messages);
+            var message = _context.UserMessages.Add(newUserMessage);
 
-            return messages;
+            var messageBox = _context.MessageBoxes.FirstOrDefault(x => x.Id == messageBoxId);
+
+            if (messageBox == null) return Task.FromResult(false);
+
+            if (messageBox.MessageHistory == null) messageBox.MessageHistory = new List<UserMessage>();
+
+            messageBox.MessageHistory.Add(message.Entity);
+
+            return Task.FromResult(_context.SaveChanges() == 1 ? true : false);
         }
 
-        public async Task<IEnumerable<UserMessage>> GetNotSendUserMessages(Guid userProfileId)
+        public Task<Guid> CreateNewMessageBox(Guid profileOneId, Guid profileTwoId)
         {
-            var messages = _context.UserMessages.
-                Where(x => x.TargetProfileId == userProfileId && x.HasBeenSend == false)
-                .OrderByDescending(x => x.SendTime);
+            bool profileOneExists = _context.UserProfiles.FirstOrDefault(x => x.Id == profileOneId) != null ? true : false;
+            bool profileTwoExists = _context.UserProfiles.FirstOrDefault(x => x.Id == profileTwoId) != null ? true : false;
 
-            await MarkAsSend(messages);
+            if (!profileOneExists || !profileTwoExists) return Task.FromResult(Guid.Empty);
 
-            return messages;
+            var firstMessageBox = _context.MessageBoxes.FirstOrDefault(x => x.ProfileOneId == profileOneId && x.ProfileTwoId == profileTwoId);
+            var secondMessageBox = _context.MessageBoxes.FirstOrDefault(x => x.ProfileOneId == profileTwoId && x.ProfileTwoId == profileOneId);
+
+            if (firstMessageBox != null) return Task.FromResult(firstMessageBox.Id);
+            if (secondMessageBox != null) return Task.FromResult(secondMessageBox.Id);
+
+            MessageBox newMessageBox = new MessageBox(profileOneId, profileTwoId);
+
+            var savedMessagBox = _context.MessageBoxes.Add(newMessageBox);
+
+            _context.SaveChanges();
+
+            return Task.FromResult(savedMessagBox.Entity.Id);
         }
 
-        public Task<bool> SaveMessage(UserMessage userMessage)
+        public Task<MessageBox> GetMessageBoxById(Guid id)
         {
-            _context.UserMessages.AddAsync(userMessage);
-            return Task.FromResult(SaveChanges());
+            var messageBox = _context.MessageBoxes
+                .Where(x => x.Id == id)
+                .Include(x => x.MessageHistory)
+                .FirstOrDefault();
+            messageBox.MessageHistory.OrderByDescending(x => x.SendTime);
+
+            return Task.FromResult(messageBox);
         }
 
-        public Task<bool> MarkAsOpened(Guid messageId)
-        {
-            _context.UserMessages.FirstOrDefault(x => x.Id == messageId).HasBeenOpen = true;
-            return Task.FromResult(SaveChanges());
-        }
-
-        private async Task<bool> MarkAsSend(IEnumerable<UserMessage> messages)
-        {
-            try
-            {
-                foreach (var message in messages)
-                {
-                    if (_context.UserMessages.FirstOrDefault(x => x.Id == message.Id).HasBeenSend == false)
-                        _context.UserMessages.FirstOrDefault(x => x.Id == message.Id).HasBeenSend = true;
-                }
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
-        }
-
-        private bool SaveChanges() 
-            => _context.SaveChanges() > 0 ? true : false;
     }
 }
