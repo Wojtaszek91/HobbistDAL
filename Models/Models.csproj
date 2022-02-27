@@ -9,7 +9,7 @@
     <Authors>Michal Wojtaszek</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>All rights reserved</Copyright>
-    <Version>1.0.5</Version>
+    <Version>1.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>

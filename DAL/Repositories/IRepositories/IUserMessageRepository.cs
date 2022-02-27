@@ -10,11 +10,10 @@ namespace DAL.Repositories.IRepositories
 {
     public interface IUserMessageRepository
     {
-        Task<bool> SaveNewMessage(Guid messageBoxId, string content, Guid senderProfileId);
+        Task<UserMessage> SaveNewMessage(Guid messageBoxId, string content, Guid senderProfileId);
         Task<Guid> CreateNewMessageBox(Guid profileOneId, Guid profileTwoId);
         Task<MessageBox> GetMessageBoxById(Guid id);
-        //Task<bool> MarkAsOpened(Guid messageId);
-        //Task<IEnumerable<UserMessage>> GetUserMessagesAtLogin(Guid userProfileId);
-        //Task<IEnumerable<UserMessage>> GetNotSendUserMessages(Guid userProfileId);
+        Task<List<MessageBox>> GetAllUserMessageBoxes(Guid profileId);
+        Task<string> GetUsernameByProfileId(Guid profileId);
     }
 }

@@ -33,7 +33,12 @@ namespace DAL.Repositories
             var profile = _context.UserProfiles.FirstOrDefault(p => p.Id == profileDto.ProfileId);
             if (profile == null) return false;
 
-            if (!string.IsNullOrEmpty(profileDto.Username) && profile.Username != profileDto.Username) profile.Username = profileDto.Username;
+            if (!string.IsNullOrEmpty(profileDto.Username) && profile.Username != profileDto.Username) 
+            {
+                var profileWithSameUsername = _context.UserProfiles.FirstOrDefault(x => x.Username == profileDto.Username);
+                if(profileWithSameUsername == null && profileWithSameUsername.Id == profileDto.ProfileId)
+                    profile.Username = profileDto.Username;
+            }
             if (!string.IsNullOrEmpty(profileDto.Description) && profile.Description != profileDto.Description) profile.Description = profileDto.Description;
             if (!string.IsNullOrEmpty(profileDto.ProfilePhoto) && profile.ProfilePhoto != profileDto.ProfilePhoto) profile.ProfilePhoto = profileDto.ProfilePhoto;
             if (!string.IsNullOrEmpty(profileDto.VideoLink) && profile.VideoLink != profileDto.VideoLink) profile.VideoLink = profileDto.VideoLink;

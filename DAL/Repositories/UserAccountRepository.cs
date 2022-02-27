@@ -32,13 +32,16 @@ namespace DAL.Repositories
                 (u => u.Email == loginDetails.Email && u.Password == loginDetails.Password);
             if (user == null) return null;
 
+            var userName = _context.UserProfiles.FirstOrDefault(x => x.UserAccountId == user.Id).Username;
+            if (string.IsNullOrEmpty(userName)) userName = "Hobbista";
+
             var expiresIn = DateTime.UtcNow.AddDays(1);
             var tokenHanlder = new JwtSecurityTokenHandler();
             var secret = Encoding.ASCII.GetBytes(_key);
             var tokenDescriptior = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new Claim[] {
-                        new Claim(ClaimTypes.Name, user.Email.ToString()),
+                        new Claim(ClaimTypes.Name, userName),
                         new Claim(ClaimTypes.Role, user.Role.ToString())
                     }),
                 Expires = expiresIn,
