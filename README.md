@@ -1,4 +1,4 @@
-Project is implementation of data access layer pattern. Dal and model projects are used as nuget pacakges. 
+Project is implementation of data access layer pattern. Dal and model projects are used as nuget packages. 
 
 https://www.nuget.org/packages/Hobbist.Association.DAL
 
