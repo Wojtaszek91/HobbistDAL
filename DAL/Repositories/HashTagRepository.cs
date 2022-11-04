@@ -23,7 +23,10 @@ namespace DAL.Repositories
         public List<HashTagDto> GetAllHashtagsDto()
         {
             List<HashTagDto> hashtagDtoList = new List<HashTagDto>();
-            foreach (var hashTag in _context.HashTags.ToList()) { hashtagDtoList.Add(HashtagMapper.MapHashTagToDto(hashTag)); }
+            foreach (var hashTag in _context.HashTags.ToList()) 
+            { 
+                hashtagDtoList.Add(HashtagMapper.MapHashTagToDto(hashTag));
+            }
 
             return hashtagDtoList;
         }
@@ -31,7 +34,10 @@ namespace DAL.Repositories
         public List<string> GetAllHashtagNames()
         {
             List<string> hashtagDtoList = new List<string>();
-            _context.HashTags.ToList().ForEach(x => hashtagDtoList.Add(x.HashTagName));
+            foreach(var hashTag in _context.HashTags.ToList())
+            {
+                hashtagDtoList.Add(hashTag.HashTagName);
+            }
 
             return hashtagDtoList;
         }
@@ -39,7 +45,10 @@ namespace DAL.Repositories
         public List<HashTag> GetAllHashtags()
         {
             List<HashTag> hashTagList = new List<HashTag>();
-            foreach (var hashTag in _context.HashTags.ToList()) { hashTagList.Add(hashTag); }
+            foreach (var hashTag in _context.HashTags.ToList()) 
+            { 
+                hashTagList.Add(hashTag);
+            }
 
             return hashTagList;
         }
@@ -145,6 +154,11 @@ namespace DAL.Repositories
         }
 
         private bool IsNameUsed(string name)
-            => _context.HashTags.FirstOrDefault(x => x.HashTagName.ToUpper() == name.ToUpper()) == null ? false : true;
+            => _context.HashTags.FirstOrDefault(x => 
+            x.HashTagName.ToUpper() == name.ToUpper()) == null 
+            ? 
+            false 
+            :
+            true;
     }
 }
